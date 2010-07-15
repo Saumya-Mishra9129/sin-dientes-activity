@@ -1,0 +1,9 @@
+[Activity]
+name = Ahorcado
+service_name = org.laptop.ahorcado
+class = activity.Ahorcado
+icon = activity-ahorcado
+activity_version = 1
+show_launcher = yes
+mime_types = application/ahorcado
+licence = GPL
