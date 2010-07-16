@@ -26,10 +26,12 @@ class Ahorcado:
         self.ventana.add(self.contenedor)
 
         self.contenedor_superior = gtk.HBox()
-        self.contenedor_inferior= gtk.HBox()
+        self.contenedor_inferior = gtk.HBox()
+        self.contenedor_subinferior = gtk.HBox()
 
         self.contenedor.pack_start(self.contenedor_superior)
         self.contenedor.pack_start(self.contenedor_inferior, expand=False)
+        self.contenedor.pack_start(self.contenedor_subinferior)
 
         #interface
         self.palabra_entry = gtk.Entry()
@@ -38,6 +40,7 @@ class Ahorcado:
         self.ok_btn = gtk.Button(_('Ok'))
         self.ok_btn.connect('clicked', self._ok_btn_clicked_cb, None)
         self.label = gtk.Label()
+        self.letra_vacia = gtk.Label('')
         self.imagen = gtk.Image()
         
         self._cambiar_imagen(0)
@@ -47,6 +50,7 @@ class Ahorcado:
         self.contenedor_superior.pack_start(self.imagen)
         self.contenedor_superior.pack_start(self.puntaje_label)
         self.contenedor_superior.pack_start(self.palabra_label)
+        self.contenedor_superior.pack_start(self.letra_vacia, False)
 
         self.contenedor_inferior.pack_start(self.palabra_entry)
         self.contenedor_inferior.pack_start(self.ok_btn, False)
@@ -82,18 +86,20 @@ class Ahorcado:
 
     def _actualizar_palabra(self):
         letra_actual = self.palabra_entry.get_text()
+        self.letra_vacia.set_text('')
         #TODO: Validar que solo introduzca una letra
         if letra_actual != '' and letra_actual in self.palabra:
             self.puntaje += 1
             self.puntaje_label.set_text(_('Puntaje: %s' % self.puntaje))
-            self.palabra = utils.palabra_aleatoria()
+            #self.palabra = utils.palabra_aleatoria()
             self.letras.append(letra_actual)
         elif letra_actual != '':
             self.letras.append(letra_actual)
             self.errores += 1
             self._cambiar_imagen(self.errores)
-        else:
-            pass #TODO validar letra vacia
+        elif letra_actual == '' and (self.errores != 0 or self.puntaje !=0):
+            self.letra_vacia.set_text('Usted no ha introducido ninguna letra')
+          
 
         pista = ''
         for letra in self.palabra:
