@@ -2,7 +2,7 @@
 name = Ahorcado
 service_name = org.laptop.ahorcado
 class = activity.Ahorcado
-icon = activity-ahorcado
+icon = icono.sugar
 activity_version = 1
 show_launcher = yes
 mime_types = application/ahorcado
