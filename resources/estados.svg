@@ -39,9 +39,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.5"
-     inkscape:cx="1569.8376"
-     inkscape:cy="-48.382865"
+     inkscape:zoom="0.5234375"
+     inkscape:cx="1612.7486"
+     inkscape:cy="-191.37266"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -68,7 +68,7 @@
      id="layer1"
      transform="translate(0,-452.36218)">
     <rect
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#959595;stroke-width:0.99750625999999998;stroke-opacity:1"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#959595;stroke-width:0.99750625999999998;stroke-opacity:1;opacity:1"
        id="rect4781"
        width="399.0025"
        height="399.0025"
@@ -216,7 +216,7 @@
        height="399.0025"
        width="399.0025"
        id="rect4783"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#959595;stroke-width:0.99750626;stroke-opacity:1"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#959595;stroke-width:0.99750625999999998;stroke-opacity:1;opacity:1"
        inkscape:export-filename="/home/bcorrales/sugar/Ahorcado-clone/resources/1.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
@@ -352,7 +352,7 @@
        d="m -706.7618,1291.5407 0,-12.526 1.5847,-0.4821 c 4.5298,-1.3753 20.4853,-10.0383 27.4693,-14.9143 1.6851,-1.1768 3.0639,-2.0771 3.0639,-2.0013 0,0.3049 -3.8069,10.8898 -5.0201,13.9538 -0.716,1.8077 -2.4431,5.5799 -3.838,8.3815 -2.3741,4.769 -2.7638,5.295 -6.0971,8.2292 -4.2503,3.7417 -10.1507,7.9967 -14.213,10.2482 l -2.9497,1.6355 0,-12.5259 z"
        style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none" />
     <rect
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#959595;stroke-width:0.99750626;stroke-opacity:1"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#959595;stroke-width:0.99750625999999998;stroke-opacity:1;opacity:1"
        id="rect5091"
        width="399.0025"
        height="399.0025"
@@ -500,7 +500,7 @@
        height="399.0025"
        width="399.0025"
        id="rect5135"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#959595;stroke-width:0.99750626;stroke-opacity:1"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#959595;stroke-width:0.99750625999999998;stroke-opacity:1;opacity:1"
        inkscape:export-filename="/home/bcorrales/sugar/Ahorcado-clone/resources/3.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
@@ -636,7 +636,7 @@
        d="m 149.2382,1295.5407 0,-12.526 1.5847,-0.4821 c 4.5298,-1.3753 20.4853,-10.0383 27.4693,-14.9143 1.6851,-1.1768 3.0639,-2.0771 3.0639,-2.0013 0,0.3049 -3.8069,10.8898 -5.0201,13.9538 -0.716,1.8077 -2.4431,5.5799 -3.838,8.3815 -2.3741,4.769 -2.7638,5.295 -6.0971,8.2292 -4.2503,3.7417 -10.1507,7.9967 -14.213,10.2482 l -2.9497,1.6355 0,-12.5259 z"
        style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none" />
     <rect
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#959595;stroke-width:0.99750626;stroke-opacity:1"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#959595;stroke-width:0.99750625999999998;stroke-opacity:1;opacity:1"
        id="rect5213"
        width="399.0025"
        height="399.0025"
@@ -784,7 +784,7 @@
        height="399.0025"
        width="399.0025"
        id="rect5278"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#959595;stroke-width:0.99750626;stroke-opacity:1"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#959595;stroke-width:0.99750625999999998;stroke-opacity:1;opacity:1"
        inkscape:export-filename="/home/bcorrales/sugar/Ahorcado-clone/resources/5.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
@@ -920,7 +920,7 @@
        d="m 965.23943,1295.5407 0,-12.526 1.5847,-0.4821 c 4.5298,-1.3753 20.4853,-10.0383 27.4693,-14.9143 1.6851,-1.1768 3.0639,-2.0771 3.0639,-2.0013 0,0.3049 -3.8069,10.8898 -5.0201,13.9538 -0.716,1.8077 -2.4431,5.5799 -3.838,8.3815 -2.3741,4.769 -2.7638,5.295 -6.0971,8.2292 -4.2503,3.7417 -10.1507,7.9967 -14.213,10.2482 l -2.9497,1.6355 0,-12.5259 z"
        style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none" />
     <rect
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#959595;stroke-width:0.99750626;stroke-opacity:1"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#959595;stroke-width:0.99750625999999998;stroke-opacity:1;opacity:1"
        id="rect5322"
        width="399.0025"
        height="399.0025"
@@ -1068,7 +1068,7 @@
        height="399.0025"
        width="399.0025"
        id="rect5366"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#959595;stroke-width:0.99750626;stroke-opacity:1"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#959595;stroke-width:0.99750625999999998;stroke-opacity:1;opacity:1"
        inkscape:export-filename="/home/bcorrales/sugar/Ahorcado-clone/resources/7.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
@@ -1204,7 +1204,7 @@
        d="m 1807.5035,1292.1265 0,-12.526 1.5847,-0.4821 c 4.5298,-1.3753 20.4853,-10.0383 27.4693,-14.9143 1.6851,-1.1768 3.0639,-2.0771 3.0639,-2.0013 0,0.3049 -3.8069,10.8898 -5.0201,13.9538 -0.716,1.8077 -2.4431,5.5799 -3.838,8.3815 -2.3741,4.769 -2.7638,5.295 -6.0971,8.2292 -4.2503,3.7417 -10.1507,7.9967 -14.213,10.2482 l -2.9497,1.6355 0,-12.5259 z"
        style="fill:#323232;fill-opacity:1;fill-rule:evenodd;stroke:none" />
     <rect
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#959595;stroke-width:0.99750626;stroke-opacity:1"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#959595;stroke-width:0.99750625999999998;stroke-opacity:1;opacity:1"
        id="rect5410"
        width="399.0025"
        height="399.0025"
