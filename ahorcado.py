@@ -122,7 +122,7 @@ class Ahorcado:
         if (len(letra_actual) is not 1 or letra_actual == " "): 
             self.palabra_entry.set_text('')
             _logger.debug('mas de una letra o vacio')
-            self.instrucciones_label.set_text(_("Instruciones:\nIntroduzca solo una letra!"))
+            self.instrucciones_label.set_text(_("Instrucciones:\nIntroduzca solo una letra!"))
         
         #Evalua si letra esta dentro de palabra
         elif (letra_actual in self.palabra and letra_actual not in self.l_aciertos):
@@ -133,18 +133,18 @@ class Ahorcado:
                     self.aciertos += 1
             
             _logger.debug('letra dentro de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
-            self._actualizar_labels("Instruciones:\nLetra dentro de palabra secreta!")
+            self._actualizar_labels("Instrucciones:\nLetra dentro de palabra secreta!")
             
             #Evalua si se acerto la palabra y temina el juego
             if (self.aciertos == len(self.palabra)): 
                 _logger.debug('acerto palabra')
-                self.instrucciones_label.set_text(_('Instruciones:\nAcertastes la palabra secreta, ' \
+                self.instrucciones_label.set_text(_('Instrucciones:\nAcertastes la palabra secreta, ' \
                                                     'FELICIDADES! \n su significado es: %s' % self.significado))
 
         #Evalua si letra es repetida y esta dentro de palabra
         elif (letra_actual in self.palabra and letra_actual in self.l_aciertos): 
             _logger.debug('letra repetida y dentro de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
-            self._actualizar_labels("Instruciones:\nLetra repedita y dentro de palabra secreta!")
+            self._actualizar_labels("Instrucciones:\nLetra repetida y dentro de palabra secreta!")
 
         #Evalua si letra no esta dentro de palabra
         elif (letra_actual not in self.palabra and letra_actual not in self.l_errores):
@@ -152,12 +152,12 @@ class Ahorcado:
             self.errores += 1
             self._cambiar_imagen(self.errores)
             _logger.debug('letra fuera de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
-            self._actualizar_labels("Instruciones:\nLetra fuera de palabra secreta!")
+            self._actualizar_labels("Instrucciones:\nLetra fuera de palabra secreta!")
             
             #Evalua si se completo el ahorcado y temina el juego            
             if (self.errores >= 8): 
                 _logger.debug('fin del juego')
-                self.instrucciones_label.set_text(_('Instruciones:\nLa palabra secreta era %s, ' \
+                self.instrucciones_label.set_text(_('Instrucciones:\nLa palabra secreta era %s, ' \
                                                     'Fin del juego! x( su significado es %s' % 
                                                     (self.palabra, self.significado)) )
                 self.nuevojuego_btn.show() # muestra el boton para comenzar el juego
@@ -165,7 +165,7 @@ class Ahorcado:
         #Evalua si letra es repetida y no dentro de palabra
         elif (letra_actual not in self.palabra and letra_actual in self.l_errores): 
             _logger.debug('letra repetida y fuera de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
-            self._actualizar_labels("Instruciones:\nLetra repetida y fuera de palabra secreta!")
+            self._actualizar_labels("Instrucciones:\nLetra repetida y fuera de palabra secreta!")
 
         self._pintar_palabra()
            
