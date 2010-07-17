@@ -34,6 +34,7 @@ class Ahorcado:
         #interface
         self.imagen = gtk.Image()
         self.instrucciones_label = gtk.Label(_('Instrucciones'))
+        self.instrucciones_label.set_justify(gtk.JUSTIFY_FILL)
         self.aciertos_label = gtk.Label('Puntaje: 0')
         self.errores_label = gtk.Label()
         self.palabra_label = gtk.Label()
