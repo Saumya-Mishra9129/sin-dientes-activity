@@ -92,8 +92,8 @@ class Ahorcado:
         self._creacion()
         
     def _cambiar_imagen(self, level):
-        _logger.debug('level: %s' % level)
         ruta = 'resources/%s.png' % level
+        _logger.debug('level: %s' % level)
         self.imagen.set_from_file(ruta)
 
     def _key_press_cb(self, widget, event):

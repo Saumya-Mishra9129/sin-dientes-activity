@@ -39,9 +39,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6568542"
-     inkscape:cx="55.574937"
-     inkscape:cy="34.133945"
+     inkscape:zoom="11.844038"
+     inkscape:cx="41.643878"
+     inkscape:cy="34.17616"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -58,7 +58,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -68,9 +68,10 @@
      id="layer1"
      transform="translate(0,-997.36218)">
     <path
-       style="opacity:0.91379311;fill:#cc0000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       style="opacity:0.91379310999999996;fill:#cc0000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-opacity:1;stroke-width:0.4;stroke-miterlimit:4;stroke-dasharray:none"
        d="m 32.357336,1002.884 c -0.322467,0.8695 0.716759,3.3339 -0.817068,2.6422 -10.656496,-2.0726 -22.5674729,4.776 -25.0270952,15.5359 -0.3214539,1.2014 -0.2110811,2.7288 -1.6814703,2.9595 -2.8994462,1.5606 -3.243784,6.2599 -0.3183381,7.9373 0.9969584,0.7404 2.7623183,0.2698 2.7589302,1.9631 4.0079044,10.3469 16.7598634,16.1134 27.1754614,12.3409 6.337356,-2.1293 11.762282,-7.2318 13.762817,-13.6567 4.582388,0.088 6.322185,-7.221 1.803916,-8.7756 -1.792666,-0.2954 -1.03147,-2.5794 -1.793305,-3.8094 -1.255121,-3.918 -3.728138,-7.4154 -6.897325,-10.017 1.670537,-2.1567 -0.709621,-6.0201 -3.395606,-4.7327 -0.750735,-0.043 -1.485588,-1.3755 -2.387536,-1.6766 -1.001009,-0.1834 -3.853562,-3.3655 -3.183381,-0.7109 z"
-       id="path3636" />
+       id="contorno"
+       inkscape:label="#path3636" />
     <path
        transform="matrix(0.06164392,0,0,0.05972421,44.970944,1025.1835)"
        d="m 92.630989,46.408855 a 41.719299,41.719299 0 1 1 -83.4385986,0 41.719299,41.719299 0 1 1 83.4385986,0 z"
