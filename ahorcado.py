@@ -4,6 +4,9 @@ import gtk
 import logging
 from gettext import gettext as _
 from sugar.activity import activity
+from os.path import exists
+from datetime import datetime
+import pickle
 
 import utils
 
@@ -30,6 +33,15 @@ class Ahorcado:
         self.contenedor.pack_start(self.contenedor_superior)
         self.contenedor.pack_start(self.contenedor_inferior, expand=False)
 
+        """self.contenedor_puntaje = gtk.VBox()#desde aca lleva interface de los tres mejores puntajes
+
+        self.primero_label = gtk.Label("Primer Puntaje : " % load_puntaje())
+
+        self.contenedor_puntaje.pack_start(self.primero_label, False, False, 0)
+        
+        """
+
+
         self.subcontenedor= gtk.VBox()
                 
         #interface
@@ -49,6 +61,7 @@ class Ahorcado:
         self._cambiar_imagen(0)
 
         self.aciertos = 0 #Cuenta los aciertos de letras en la palabra secreta
+        self.lista_record = self.load_puntaje()
         self._creacion() # Crea las variables necesarias para el comienzo del juego
 
         #agregando elementos
@@ -114,7 +127,25 @@ class Ahorcado:
     def main(self):
         gtk.main()
 
+    def load_puntaje(self):
+        if exists("puntaje.pck"):
+            f_read = open("puntaje.pck", "rb")
+            x = pickle.load(f_read)
+            f_read.close()
+            return x
+        else:
+            return []
+
+    def guardar_puntaje(self):
+        f_write = open("puntaje.pck", "ab")
+        info_gamer = (self.aciertos, datetime.now())
+        lista_gamer = []
+        lista_gamer.append(info_gamer)
+        pickle.dump(lista_gamer, f_write)
+        f_write.close()
+
     def _destroy_cb(self, widget, data=None):
+        self.guardar_puntaje()
         gtk.main_quit()
 
     def _actualizar_palabra(self):
