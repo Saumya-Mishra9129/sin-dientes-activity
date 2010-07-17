@@ -63,7 +63,7 @@ class SinDientes(activity.Activity):
 
         self.aciertos = 0 #Cuenta los aciertos de letras en la palabra secreta
         self.lista_record = self.load_puntaje()
-        self._creacion() # Crea las variables necesarias para el comienzo del juego
+        self._leer_diario() # Crea las variables necesarias para el comienzo del juego
 
         #agregando elementos
         self.contenedor_superior.pack_start(self.imagen)
@@ -83,21 +83,19 @@ class SinDientes(activity.Activity):
         self.set_canvas(self.contenedor)
         self.show()
 
-    def _creacion(self):
+    def _creacion(self, nuevo=True):
         '''Crea las variables necesarias para el comienzo del juego'''
-        self.errores = 0 #Cuenta los errores de letras en la palabra secreta
-        self.l_aciertos = [] #Lista de letras acertadas en la palabra secreta
-        self.l_errores = [] #Lista de letras erradas en la palabra secreta
-        self.palabra, self.significado = utils.palabra_aleatoria()
-        self.aciertos_label.set_text(_('Puntaje: %s' % self.aciertos))
-        self.errores_label.set_text(_('Errores: 0'))
-        self.letrasusadas_label.set_text(_('Letras Usadas: '))
-        self.instrucciones_label.set_text(_('Instrucciones'))
-        self.palabra_label.set_text("")
+        if nuevo:
+            self.palabra, self.significado = utils.palabra_aleatoria()
+            self.l_aciertos = []
+            self.l_errores= []
+            self.errores = 0
+            self._cambiar_imagen(0)
+        else:
+            self._cambiar_imagen(self.errores)
+        
+        self._actualizar_labels('Instrucciones')
         self.nuevojuego_btn.hide()
-        self._cambiar_imagen(0)
-        self._pintar_palabra()
-        print self.palabra
 
     def _ok_btn_clicked_cb(self, widget, data=None):
         self._actualizar_palabra()
@@ -232,10 +230,14 @@ class SinDientes(activity.Activity):
         self.palabra_label.set_text(pista)
 
     def _leer_diario(self):
-        self.aciertos = int(self.metadata['aciertos'])
-        self.palabra = str(self.metadata['palabra'])
-        self.l_aciertos = str(self.metadata['l_aciertos'])
-        self.l_errores = str(self.metadata['l_errores'])
+        try:
+            self.aciertos = int(self.metadata['aciertos'])
+            self.palabra = str(self.metadata['palabra'])
+            self.l_aciertos = str(self.metadata['l_aciertos'])
+            self.l_errores = str(self.metadata['l_errores'])
+            self._creacion(False)
+        except:
+            self._creacion(True)
 
     def read_file(self, filepath):
         _logger.debug('leyendo desde  %s' % filepath)
