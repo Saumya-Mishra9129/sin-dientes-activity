@@ -1,9 +1,9 @@
 [Activity]
 name = Sin Dientes
 service_name = org.laptop.sindientes
-class = activity.ahorcado
+class = activity.SinDientes
 icon = icono.sugar
 activity_version = 1
 show_launcher = yes
-mime_types = application/sindientes
+mime_types = application/x-sindientes
 licence = GPL
