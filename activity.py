@@ -12,10 +12,10 @@ import utils
 _logger = logging.getLogger('ahorcado-activity')
 _logger.setLevel(logging.DEBUG)
 
-class Sindientes(activity.Activity):
+class SinDientes(activity.Activity):
 
     def __init__(self, handle):
-        super(Sindientes, self).__init__(handle)
+        super(SinDientes, self).__init__(handle)
         #ventana
         #self.ventana = gtk.Window()
         #self.ventana.set_title(_('Ahorcado'))
@@ -26,7 +26,7 @@ class Sindientes(activity.Activity):
         #contenedores
         self.contenedor = gtk.VBox()
         #self.ventana.add(self.contenedor)
-        self.add(self.contenedor)
+        self.set_canvas(self.contenedor)
 
         self.contenedor_superior = gtk.HBox()
         self.contenedor_inferior= gtk.HBox()
@@ -226,3 +226,33 @@ class Sindientes(activity.Activity):
                 pista += '_ '
         self.palabra_label.set_text(pista)
 
+    def _leer_diario(self):
+        self.aciertos = int(self.metadata['aciertos'])
+        self.palabra = str(self.metadata['palabra'])
+        self.l_aciertos = str(self.metadata['l_aciertos'])
+        self.l_errores = str(self.metadata['l_errores'])
+
+    def read_file(self, filepath):
+        _logger.debug('leyendo desde  %s' % filepath)
+        if exists(filepath):
+            f_read = open(filepath, "rb")
+            x = pickle.load(f_read)
+            f_read.close()
+            return x
+        else:
+            return []
+
+    def write_file(self, filepath):
+        _logger.debug('Guardando en: %s' % filepath)
+        self.metadata['aciertos'] = self.aciertos
+        self.metadata['palabra'] = self.palabra
+        self.metadata['l_aciertos'] = self.l_aciertos
+        self.metadata['l_errores'] = self.l_errores
+        self.metadata['mime_type'] = 'application/x-sindientes'
+
+        f_write = open(filepath, "ab")
+        info_gamer = (self.aciertos, datetime.now())
+        lista_gamer = []
+        lista_gamer.append(info_gamer)
+        pickle.dump(lista_gamer, f_write)
+        f_write.close()
