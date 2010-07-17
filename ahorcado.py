@@ -44,6 +44,7 @@ class Ahorcado:
         self.aciertos_label = gtk.Label('Puntaje: 0')
         self.errores_label = gtk.Label('Errores: 0')
         self.palabra_label = gtk.Label()
+        self.letrasusadas_label = gtk.Label('Letras Usadas: ')
         self.palabra_entry = gtk.Entry()
         self.ok_btn = gtk.Button(_('Ok'))
         self.ok_btn.connect('clicked', self._ok_btn_clicked_cb, None)
@@ -55,6 +56,7 @@ class Ahorcado:
         self.contenedor_superior.pack_start(self.subcontenedor)
         self.subcontenedor.pack_start(self.instrucciones_label)
         self.subcontenedor.pack_start(self.aciertos_label)
+        self.subcontenedor.pack_start(self.letrasusadas_label)
         self.subcontenedor.pack_start(self.errores_label)
         self.subcontenedor.pack_start(self.palabra_label)
 
@@ -107,6 +109,7 @@ class Ahorcado:
             _logger.debug('letra dentro de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
             self.instrucciones_label.set_text(_("Instruciones:\nLetra dentro de palabra secreta!"))
             self.aciertos_label.set_text(_('Puntaje: %s' % self.aciertos))
+            self.letrasusadas_label.set_text(_('Letras Usadas: %s' % self.l_aciertos))
             self.errores_label.set_text(_('Errores: %s' % self.errores))
             if (self.aciertos == len(self.palabra)): #Evalua si se acerto la palabra y temina el juego
                 _logger.debug('acerto palabra')
@@ -117,6 +120,7 @@ class Ahorcado:
             _logger.debug('letra repetida y dentro de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
             self.instrucciones_label.set_text(_("Instruciones:\nLetra repedita y dentro de palabra secreta!"))
             self.aciertos_label.set_text(_('Puntaje: %s' % self.aciertos))
+            self.letrasusadas_label.set_text(_('Letras Usadas: %s' % self.l_aciertos))
             self.errores_label.set_text(_('Errores: %s' % self.errores))
         elif (letra_actual not in self.palabra and letra_actual not in self.l_errores): #Evalua si letra no esta dentro de palabra
             self.l_errores.append(letra_actual)
@@ -126,6 +130,7 @@ class Ahorcado:
             _logger.debug('letra fuera de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
             self.instrucciones_label.set_text(_("Instruciones:\nLetra fuera de palabra secreta!"))
             self.aciertos_label.set_text(_('Puntaje: %s' % self.aciertos))
+            self.letrasusadas_label.set_text(_('Letras Usadas: %s' % self.l_aciertos))
             self.errores_label.set_text(_('Errores: %s' % self.errores))
             if (self.errores >= 8): #Evalua si se completo el ahorcado y temina el juego
                 _logger.debug('fin del juego')
@@ -136,6 +141,7 @@ class Ahorcado:
             _logger.debug('letra repetida y fuera de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
             self.instrucciones_label.set_text(_("Instruciones:\nLetra repetida y fuera de palabra secreta!"))
             self.aciertos_label.set_text(_('Puntaje: %s' % self.aciertos))
+            self.letrasusadas_label.set_text(_('Letras Usadas: %s' % self.l_aciertos))
             self.errores_label.set_text(_('Errores: %s' % self.errores))
         pista = ''
         for letra in self.palabra:
