@@ -33,11 +33,11 @@ class Ahorcado:
                 
         #interface
         self.imagen = gtk.Image()
-        self.instrucciones_label = gtk.Label('Instrucciones')
+        self.instrucciones_label = gtk.Label(_('Instrucciones'))
         self.aciertos_label = gtk.Label('Puntaje: 0')
         self.errores_label = gtk.Label()
         self.palabra_label = gtk.Label()
-        self.letrasusadas_label = gtk.Label('Letras Usadas: ')
+        self.letrasusadas_label = gtk.Label(_('Letras Usadas: '))
         self.palabra_entry = gtk.Entry()
         self.ok_btn = gtk.Button(_('Ok'))
         self.ok_btn.connect('clicked', self._ok_btn_clicked_cb, None)
@@ -71,10 +71,10 @@ class Ahorcado:
         self.l_aciertos = [] #Lista de letras acertadas en la palabra secreta
         self.l_errores = [] #Lista de letras erradas en la palabra secreta
         self.palabra, self.significado = utils.palabra_aleatoria()
-        self.aciertos_label.set_text('Puntaje: %s' % self.aciertos)
-        self.errores_label.set_text('Errores: 0')
-        self.letrasusadas_label.set_text('Letras Usadas: ')
-        self.instrucciones_label.set_text('Instrucciones')
+        self.aciertos_label.set_text(_('Puntaje: %s' % self.aciertos))
+        self.errores_label.set_text(_('Errores: 0'))
+        self.letrasusadas_label.set_text(_('Letras Usadas: '))
+        self.instrucciones_label.set_text(_('Instrucciones'))
         self.palabra_label.set_text("")
         self.nuevojuego_btn.hide()
         self._cambiar_imagen(0)
@@ -87,7 +87,6 @@ class Ahorcado:
     def _nuevojuego_btn_clicked_cb(self, widget, data=None):
         self._creacion()
         
-
     def _cambiar_imagen(self, level):
         _logger.debug('level: %s' % level)
         ruta = 'resources/%s.jpg' % level
@@ -96,7 +95,7 @@ class Ahorcado:
     def _key_press_cb(self, widget, event):
         keyname = gtk.gdk.keyval_name(event.keyval)
         _logger.debug('keyname: %s' % keyname)
-        if keyname == 'Return':
+        if keyname == 'Return' or keyname == "KP_Enter":
             self._actualizar_palabra()
         return False
 
@@ -140,6 +139,7 @@ class Ahorcado:
                 _logger.debug('acerto palabra')
                 self.instrucciones_label.set_text(_('Instrucciones:\nAcertastes la palabra secreta, ' \
                                                     'FELICIDADES! \n su significado es: %s' % self.significado))
+                self.nuevojuego_btn.show() # muestra el boton para comenzar el juego
 
         #Evalua si letra es repetida y esta dentro de palabra
         elif (letra_actual in self.palabra and letra_actual in self.l_aciertos): 
@@ -155,11 +155,12 @@ class Ahorcado:
             self._actualizar_labels("Instrucciones:\nLetra fuera de palabra secreta!")
             
             #Evalua si se completo el ahorcado y temina el juego            
-            if (self.errores >= 8): 
+            if (self.errores >= 8):
                 _logger.debug('fin del juego')
                 self.instrucciones_label.set_text(_('Instrucciones:\nLa palabra secreta era %s, ' \
                                                     'Fin del juego! x( su significado es %s' % 
                                                     (self.palabra, self.significado)) )
+                self.aciertos = 0
                 self.nuevojuego_btn.show() # muestra el boton para comenzar el juego
 
         #Evalua si letra es repetida y no dentro de palabra
