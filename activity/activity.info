@@ -1,9 +1,9 @@
 [Activity]
-name = Ahorcado
-service_name = org.laptop.ahorcado
-class = activity.Ahorcado
+name = Sin Dientes
+service_name = org.laptop.sindientes
+class = activity.ahorcado
 icon = icono.sugar
 activity_version = 1
 show_launcher = yes
-mime_types = application/ahorcado
+mime_types = application/sindientes
 licence = GPL
