@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 #Ahorcado
 import gtk
 import logging
@@ -85,6 +86,8 @@ class Ahorcado:
         self._actualizar_palabra()
 
     def _nuevojuego_btn_clicked_cb(self, widget, data=None):
+        self.palabra_entry.set_sensitive(True) #Activa la caja de texto
+        self.ok_btn.set_sensitive(True) #Activa el botón ok
         self._creacion()
         
     def _cambiar_imagen(self, level):
@@ -96,6 +99,7 @@ class Ahorcado:
         keyname = gtk.gdk.keyval_name(event.keyval)
         _logger.debug('keyname: %s' % keyname)
         if keyname == 'Return' or keyname == "KP_Enter":
+            
             self._actualizar_palabra()
         return False
 
@@ -161,6 +165,8 @@ class Ahorcado:
                                                     'Fin del juego! x( su significado es %s' % 
                                                     (self.palabra, self.significado)) )
                 self.aciertos = 0
+                self.palabra_entry.set_sensitive(False) #Activa la caja de texto
+                self.ok_btn.set_sensitive(False) #Inactiva el botón ok una vez que pierde
                 self.nuevojuego_btn.show() # muestra el boton para comenzar el juego
 
         #Evalua si letra es repetida y no dentro de palabra
@@ -169,8 +175,6 @@ class Ahorcado:
             self._actualizar_labels("Instrucciones:\nLetra repetida y fuera de palabra secreta!")
 
         self._pintar_palabra()
-           
-
         
     def _actualizar_labels(self, instrucciones):
         '''Actualiza labels segun instrucciones'''
