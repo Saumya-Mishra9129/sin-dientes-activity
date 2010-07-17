@@ -1,35 +1,34 @@
-RATON
-PERRO
-GATO
-PAJARO
-PALOMA
-LAMPAZO
-CASA
-PISO
-TECHO
-COMPUTADORA
-LINUX
-PYTHON
-GUEGUE
-SELECCION
-FUTBOL
-GOL
-ALEMANIA
-ARGENTINA
-INGLATERRA
-MEXICO
-CALEIDOSCOPIO
-TRIPODE
-CAMARA
-SOCIEDAD
-RECIBIDO
-COMPUTADORA
-PORTATIL
-SISTEMA
-OPERACION
-AVION
-SOMBRERO
-MOCHILA
-BOLSO
-VENTANA
-PUERTA
+RATON, animal roedor mamifero
+PERRO, animal canino mamifero se dice de el el mejor amigo del hombre
+GATO, animal felino semidomestico mamifero
+PAJARO, ave de cualquier familia
+PALOMA, ave su reproduccion es por medio de huevos
+LAMPAZO, utencilio casero que se utiliza para limpiar piso
+CASA, lugar con paredes y techo cuartos servicio sanitario que se utiliza para que los humanos habiten
+PISO, es la parte de la casa donde se puede caminar colocar muebles y otras cosas
+TECHO, parte de una casa que se utiliza para protegerla contra lluvia sol y otros eventos climaticos
+COMPUTADORA, XO equipo que se utiliza para realizar programas juegos y chatear en facebook
+LINUX, Sistema Operativo libre
+PYTHON, Lenguaje de programacion que dicen que es facil y se utiliza para hacer programas
+GUEGUE, Organizacion que trabaja en desarrollo de programas e imparte cursos
+SELECCION, Del verbo selecionar escoger entre varias cosas palabras u otros
+FUTBOL, Juego muy famoso que consiste basicamente en patear una pelota y meter goles el equipo que mas mete goles gana
+GOL, el hecho de introducir una pelota de futbol en la porteria
+ALEMANIA, Pais del norte de Europa se dice de ellos germanos
+ARGENTINA, Pais sudamericano del junto a Chile comparten el estrecho de Magallanes
+INGLATERRA, Reino Unido Isla contiguo a Francia 
+MEXICO, Pais norteamericano de habla hispana
+CALEIDOSCOPIO, Un caleidoscopio es un tubo que contiene tres espejos
+TRIPODE, Cualquier artefacto de tres patas para portar camaras o telescopios u otros objetos
+CAMARA, Equipo para tomar fotos
+SOCIEDAD, Algo que el ser humano cree que existe algo asi como una comunidad particular o general
+RECIBIDO, Del verbo recibir obtener algo en tiempo pasado
+PORTATIL, Objeto que se puede portar
+SISTEMA, Procesos que se ejecutan para obtener un resultado
+OPERACION, De matematicas suma resta De medicina intervenir el cuerpo humano
+AVION, Aparato que se utiliza como transporte aereo
+SOMBRERO, Objeto que se utiliza para protegerse del sol se usa en la cabeza
+MOCHILA, Bolso que usan los que no le gustan los maletines
+BOLSO, Especie de cartera que se utiliza para llevar objetos
+VENTANA, Parte de una casa para que entre aire
+PUERTA, Parte de una casa que se usa para protegerse de entradas ilegales
