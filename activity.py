@@ -1,31 +1,32 @@
 # -*- coding: UTF-8 -*-
-#Ahorcado
+#sindientes.py
+from sugar.activity import activity
 import gtk
 import logging
 from gettext import gettext as _
-from sugar.activity import activity
 from os.path import exists
 from datetime import datetime
 import pickle
-
 import utils
 
 _logger = logging.getLogger('ahorcado-activity')
 _logger.setLevel(logging.DEBUG)
 
-class Ahorcado:
+class Sindientes(activity.Activity):
 
-    def __init__(self):
-
+    def __init__(self, handle):
+        super(Sindientes, self).__init__(handle)
         #ventana
-        self.ventana = gtk.Window()
-        self.ventana.set_title(_('Ahorcado'))
-        self.ventana.connect('key-press-event', self._key_press_cb)
-        self.ventana.connect('destroy', self._destroy_cb)
+        #self.ventana = gtk.Window()
+        #self.ventana.set_title(_('Ahorcado'))
+        self.set_title(_('Ahorcado'))
+        self.connect('key-press-event', self._key_press_cb)
+        self.connect('destroy', self._destroy_cb)
         
         #contenedores
         self.contenedor = gtk.VBox()
-        self.ventana.add(self.contenedor)
+        #self.ventana.add(self.contenedor)
+        self.add(self.contenedor)
 
         self.contenedor_superior = gtk.HBox()
         self.contenedor_inferior= gtk.HBox()
@@ -34,13 +35,8 @@ class Ahorcado:
         self.contenedor.pack_start(self.contenedor_inferior, expand=False)
 
         """self.contenedor_puntaje = gtk.VBox()#desde aca lleva interface de los tres mejores puntajes
-
         self.primero_label = gtk.Label("Primer Puntaje : " % load_puntaje())
-
-        self.contenedor_puntaje.pack_start(self.primero_label, False, False, 0)
-        
-        """
-
+        self.contenedor_puntaje.pack_start(self.primero_label, False, False, 0)"""
 
         self.subcontenedor= gtk.VBox()
                 
@@ -79,7 +75,8 @@ class Ahorcado:
         
         self.contenedor.show_all()
         self.nuevojuego_btn.hide()
-        self.ventana.show()
+        self.set_canvas(self.contenedor)
+        self.show()
 
     def _creacion(self):
         '''Crea las variables necesarias para el comienzo del juego'''
@@ -219,7 +216,6 @@ class Ahorcado:
         self.letrasusadas_label.set_text(_('Letras Usadas: %s %s' % (letras,letras2)))
         self.errores_label.set_text(_('Errores: %s' % self.errores))
 
-   
     def _pintar_palabra(self):
         '''Pinta las lineas de la palabra'''
         pista = ''
@@ -229,7 +225,4 @@ class Ahorcado:
             else:
                 pista += '_ '
         self.palabra_label.set_text(pista)
-        
-if __name__ == "__main__":
-    foo = Ahorcado()
-    foo.main()
+
