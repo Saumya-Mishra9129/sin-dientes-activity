@@ -1,4 +1,4 @@
-#Marcelo Martin Gutierrez Cabezas
+#Ahorcado
 import gtk
 import logging
 from gettext import gettext as _
@@ -110,35 +110,48 @@ class Ahorcado:
         gtk.main_quit()
 
     def _actualizar_palabra(self):
-        letra_actual = self.palabra_entry.get_text().lower()#Convierte la letra a minuscula
+
+        #Convierte la letra a minuscula
+        letra_actual = self.palabra_entry.get_text().lower()
         _logger.debug('letra_actual: %s' % letra_actual)
-        if (len(letra_actual) is not 1 or letra_actual == " "): #Evalua si se escribio mas de 1 letra o esta vacio
+
+        #Evalua si se escribio mas de 1 letra o esta vacio
+        if (len(letra_actual) is not 1 or letra_actual == " "): 
             self.palabra_entry.set_text('')
             _logger.debug('mas de una letra o vacio')
             self.instrucciones_label.set_text(_("Instruciones:\nIntroduzca solo una letra!"))
-        elif (letra_actual in self.palabra and letra_actual not in self.l_aciertos): #Evalua si letra esta dentro de palabra
+        
+        #Evalua si letra esta dentro de palabra
+        elif (letra_actual in self.palabra and letra_actual not in self.l_aciertos):
             self.l_aciertos.append(letra_actual)
+            
             for i in range(len(self.palabra)):
                 if (letra_actual == self.palabra[i]):
                     self.aciertos += 1
+            
             self.palabra_entry.set_text('')
             _logger.debug('letra dentro de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
             self.instrucciones_label.set_text(_("Instruciones:\nLetra dentro de palabra secreta!"))
             self.aciertos_label.set_text(_('Puntaje: %s' % self.aciertos))
             self.letrasusadas_label.set_text(_('Letras Usadas: %s' % self.l_aciertos))
             self.errores_label.set_text(_('Errores: %s' % self.errores))
-            if (self.aciertos == len(self.palabra)): #Evalua si se acerto la palabra y temina el juego
+            
+            #Evalua si se acerto la palabra y temina el juego
+            if (self.aciertos == len(self.palabra)): 
                 _logger.debug('acerto palabra')
                 self.instrucciones_label.set_text(_('Instruciones:\nAcertastes la palabra secreta, FELICIDADES! x)'))
-                pass
-        elif (letra_actual in self.palabra and letra_actual in self.l_aciertos): #Evalua si letra es repetida y esta dentro de palabra
+
+        #Evalua si letra es repetida y esta dentro de palabra
+        elif (letra_actual in self.palabra and letra_actual in self.l_aciertos): 
             self.palabra_entry.set_text('')
             _logger.debug('letra repetida y dentro de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
             self.instrucciones_label.set_text(_("Instruciones:\nLetra repedita y dentro de palabra secreta!"))
             self.aciertos_label.set_text(_('Puntaje: %s' % self.aciertos))
             self.letrasusadas_label.set_text(_('Letras Usadas: %s' % self.l_aciertos))
             self.errores_label.set_text(_('Errores: %s' % self.errores))
-        elif (letra_actual not in self.palabra and letra_actual not in self.l_errores): #Evalua si letra no esta dentro de palabra
+
+        #Evalua si letra no esta dentro de palabra
+        elif (letra_actual not in self.palabra and letra_actual not in self.l_errores):
             self.l_errores.append(letra_actual)
             self.errores += 1
             self._cambiar_imagen(self.errores)
@@ -148,12 +161,16 @@ class Ahorcado:
             self.aciertos_label.set_text(_('Puntaje: %s' % self.aciertos))
             self.letrasusadas_label.set_text(_('Letras Usadas: %s' % self.l_aciertos))
             self.errores_label.set_text(_('Errores: %s' % self.errores))
-            if (self.errores >= 8): #Evalua si se completo el ahorcado y temina el juego
+            
+            #Evalua si se completo el ahorcado y temina el juego            
+            if (self.errores >= 8): 
                 _logger.debug('fin del juego')
                 self.instrucciones_label.set_text(_('Instruciones:\nLa palabra secreta era %s, Fin del juego! x(' % self.palabra) )
                 self.nuevojuego_btn.show() # muestra el boton para comenzar el juego
                 pass
-        elif (letra_actual not in self.palabra and letra_actual in self.l_errores): #Evalua si letra es repetida y no dentro de palabra
+
+        #Evalua si letra es repetida y no dentro de palabra
+        elif (letra_actual not in self.palabra and letra_actual in self.l_errores): 
             self.palabra_entry.set_text('')
             _logger.debug('letra repetida y fuera de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
             self.instrucciones_label.set_text(_("Instruciones:\nLetra repetida y fuera de palabra secreta!"))
