@@ -22,7 +22,12 @@ class SinDientes(activity.Activity):
         self.set_title(_('Sin Dientes'))
         self.connect('key-press-event', self._key_press_cb)
         self.connect('destroy', self._destroy_cb)
-        
+
+        #Barra de herramientas sugar
+        barra_herramientas = activity.ActivityToolbox(self)
+        self.set_toolbox(barra_herramientas)
+        barra_herramientas.show()
+
         #contenedores
         self.contenedor = gtk.VBox()
         #self.ventana.add(self.contenedor)
