@@ -184,7 +184,8 @@ class Ahorcado:
         self.instrucciones_label.set_text(_(instrucciones))
         self.aciertos_label.set_text(_('Puntaje: %s' % self.aciertos))
         letras = ', '.join(letra for letra in self.l_aciertos)
-        self.letrasusadas_label.set_text(_('Letras Usadas: %s' % letras))
+        letras2 = ', '.join(letra for letra in self.l_errores)
+        self.letrasusadas_label.set_text(_('Letras Usadas: %s %s' % (letras,letras2)))
         self.errores_label.set_text(_('Errores: %s' % self.errores))
 
    
