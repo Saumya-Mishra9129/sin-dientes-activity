@@ -26,7 +26,7 @@ class SinDientes(activity.Activity):
         #contenedores
         self.contenedor = gtk.VBox()
         #self.ventana.add(self.contenedor)
-        self.set_canvas(self.contenedor)
+
 
         self.contenedor_superior = gtk.HBox()
         self.contenedor_inferior= gtk.HBox()
