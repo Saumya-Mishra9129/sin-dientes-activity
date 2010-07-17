@@ -12,13 +12,6 @@ _logger.setLevel(logging.DEBUG)
 class Ahorcado:
 
     def __init__(self):
-        self.palabra = utils.palabra_aleatoria()
-        _logger.debug('palabra: %s' % self.palabra)
-                
-        self.aciertos = 0 #Cuenta los aciertos de letras en la palabra secreta
-        self.errores = 0 #Cuenta los errores de letras en la palabra secreta
-        self.l_aciertos = [] #Lista de letras acertadas en la palabra secreta
-        self.l_errores = [] #Lista de letras erradas en la palabra secreta
 
         #ventana
         self.ventana = gtk.Window()
@@ -48,9 +41,12 @@ class Ahorcado:
         self.palabra_entry = gtk.Entry()
         self.ok_btn = gtk.Button(_('Ok'))
         self.ok_btn.connect('clicked', self._ok_btn_clicked_cb, None)
-        
+        self.nuevojuego_btn = gtk.Button(_('Nuevo Juego'))
+        self.nuevojuego_btn.connect('clicked', self._nuevojuego_btn_clicked_cb, None)
         self._cambiar_imagen(0)
-        
+
+        self.creacion() # Crea las variables necesarias para el comienzo del juego
+
         #agregando elementos
         self.contenedor_superior.pack_start(self.imagen)
         self.contenedor_superior.pack_start(self.subcontenedor)
@@ -59,15 +55,35 @@ class Ahorcado:
         self.subcontenedor.pack_start(self.letrasusadas_label)
         self.subcontenedor.pack_start(self.errores_label)
         self.subcontenedor.pack_start(self.palabra_label)
+        self.subcontenedor.pack_start(self.nuevojuego_btn)
 
         self.contenedor_inferior.pack_start(self.palabra_entry)
         self.contenedor_inferior.pack_start(self.ok_btn, False)
         
         self.contenedor.show_all()
+        self.nuevojuego_btn.hide()
         self.ventana.show()
-        
+
+    def creacion(self):
+        '''Crea las variables necesarias para el comienzo del juego'''
+        self.aciertos = 0 #Cuenta los aciertos de letras en la palabra secreta
+        self.errores = 0 #Cuenta los errores de letras en la palabra secreta
+        self.l_aciertos = [] #Lista de letras acertadas en la palabra secreta
+        self.l_errores = [] #Lista de letras erradas en la palabra secreta
+        self.palabra = utils.palabra_aleatoria() #Crea una palabra aleatoria
+
     def _ok_btn_clicked_cb(self, widget, data=None):
         self._actualizar_palabra()
+
+    def _nuevojuego_btn_clicked_cb(self, widget, data=None):
+        self.creacion()
+        self.aciertos_label.set_text('Puntaje: 0')
+        self.errores_label.set_text('Errores: 0')
+        self.letrasusadas_label.set_text('Letras Usadas: ')
+        self.instrucciones_label.set_text('Instrucciones')
+        self.palabra_label.set_text("")
+        self.nuevojuego_btn.hide()
+        self._cambiar_imagen(0)
 
     def _cambiar_imagen(self, level):
         _logger.debug('level: %s' % level)
@@ -135,6 +151,7 @@ class Ahorcado:
             if (self.errores >= 8): #Evalua si se completo el ahorcado y temina el juego
                 _logger.debug('fin del juego')
                 self.instrucciones_label.set_text(_('Instruciones:\nLa palabra secreta era %s, Fin del juego! x(' % self.palabra) )
+                self.nuevojuego_btn.show() # muestra el boton para comenzar el juego
                 pass
         elif (letra_actual not in self.palabra and letra_actual in self.l_errores): #Evalua si letra es repetida y no dentro de palabra
             self.palabra_entry.set_text('')
