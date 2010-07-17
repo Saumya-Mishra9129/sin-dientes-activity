@@ -19,7 +19,7 @@ class SinDientes(activity.Activity):
         #ventana
         #self.ventana = gtk.Window()
         #self.ventana.set_title(_('Ahorcado'))
-        self.set_title(_('Ahorcado'))
+        self.set_title(_('Sin Dientes'))
         self.connect('key-press-event', self._key_press_cb)
         self.connect('destroy', self._destroy_cb)
         
