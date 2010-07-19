@@ -21,7 +21,6 @@ class SinDientes(activity.Activity):
         #self.ventana.set_title(_('Ahorcado'))
         self.set_title(_('Sin Dientes'))
         self.connect('key-press-event', self._key_press_cb)
-        self.connect('destroy', self._destroy_cb)
 
         #Barra de herramientas sugar
         barra_herramientas = activity.ActivityToolbox(self)
@@ -96,6 +95,7 @@ class SinDientes(activity.Activity):
         
         self._actualizar_labels('Instrucciones')
         self.nuevojuego_btn.hide()
+        self._pintar_palabra()
 
     def _ok_btn_clicked_cb(self, widget, data=None):
         self._actualizar_palabra()
@@ -128,25 +128,20 @@ class SinDientes(activity.Activity):
         gtk.main()
 
     def load_puntaje(self):
-        if exists("puntaje.pck"):
-            f_read = open("puntaje.pck", "rb")
+        if exists("data/puntaje.pck"):
+            f_read = open("data/puntaje.pck", "rb")
             x = pickle.load(f_read)
             f_read.close()
             return x
         else:
             return []
 
-    def guardar_puntaje(self):
-        f_write = open("puntaje.pck", "ab")
+    def _guardar_puntaje(self):
+        f_write = open("data/puntaje.pck", "ab")
         info_gamer = (self.aciertos, datetime.now())
-        lista_gamer = []
-        lista_gamer.append(info_gamer)
-        pickle.dump(lista_gamer, f_write)
+        self.lista_record.append(info_gamer)
+        pickle.dump(self.lista_record, f_write)
         f_write.close()
-
-    def _destroy_cb(self, widget, data=None):
-        self.guardar_puntaje()
-        gtk.main_quit()
 
     def _actualizar_palabra(self):
 
@@ -231,23 +226,19 @@ class SinDientes(activity.Activity):
 
     def _leer_diario(self):
         try:
+            _logger.debug('leyedo diario')
+            _logger.debug('aciertos: %s' % self.metadata['aciertos'])
             self.aciertos = int(self.metadata['aciertos'])
             self.palabra = str(self.metadata['palabra'])
-            self.l_aciertos = str(self.metadata['l_aciertos'])
-            self.l_errores = str(self.metadata['l_errores'])
+            self.l_aciertos = list(self.metadata['l_aciertos'])
+            self.l_errores = list(self.metadata['l_errores'])
             self._creacion(False)
         except:
             self._creacion(True)
 
     def read_file(self, filepath):
         _logger.debug('leyendo desde  %s' % filepath)
-        if exists(filepath):
-            f_read = open(filepath, "rb")
-            x = pickle.load(f_read)
-            f_read.close()
-            return x
-        else:
-            return []
+        self._leer_diario()
 
     def write_file(self, filepath):
         _logger.debug('Guardando en: %s' % filepath)
@@ -256,10 +247,5 @@ class SinDientes(activity.Activity):
         self.metadata['l_aciertos'] = self.l_aciertos
         self.metadata['l_errores'] = self.l_errores
         self.metadata['mime_type'] = 'application/x-sindientes'
-
-        f_write = open(filepath, "ab")
-        info_gamer = (self.aciertos, datetime.now())
-        lista_gamer = []
-        lista_gamer.append(info_gamer)
-        pickle.dump(lista_gamer, f_write)
-        f_write.close()
+        
+        self._guardar_puntaje()
