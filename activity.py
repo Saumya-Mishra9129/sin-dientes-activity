@@ -1,5 +1,4 @@
 # -*- coding: UTF-8 -*-
-#sindientes.py
 from sugar.activity import activity
 import gtk
 import logging
@@ -9,13 +8,13 @@ from datetime import datetime
 import pickle
 import utils
 
-_logger = logging.getLogger('ahorcado-activity')
+_logger = logging.getLogger('chintano-activity')
 _logger.setLevel(logging.DEBUG)
 
-class SinDientes(activity.Activity):
+class Chintano(activity.Activity):
 
     def __init__(self, handle):
-        super(SinDientes, self).__init__(handle)
+        super(Chintano, self).__init__(handle)
         #ventana
         #self.ventana = gtk.Window()
         #self.ventana.set_title(_('Ahorcado'))
@@ -39,7 +38,7 @@ class SinDientes(activity.Activity):
         self.contenedor.pack_start(self.contenedor_inferior, expand=False)
 
         """self.contenedor_puntaje = gtk.VBox()#desde aca lleva interface de los tres mejores puntajes
-        self.primero_label = gtk.Label("Primer Puntaje : " % load_puntaje())
+        self.primero_label = gtk.Label("Primer Puntaje : " % _load_puntaje())
         self.contenedor_puntaje.pack_start(self.primero_label, False, False, 0)"""
 
         self.subcontenedor= gtk.VBox()
@@ -61,8 +60,7 @@ class SinDientes(activity.Activity):
         self._cambiar_imagen(0)
 
         self.aciertos = 0 #Cuenta los aciertos de letras en la palabra secreta
-        self.lista_record = self.load_puntaje()
-        self._leer_diario() # Crea las variables necesarias para el comienzo del juego
+        self.lista_record = self._load_puntaje()
 
         #agregando elementos
         self.contenedor_superior.pack_start(self.imagen)
@@ -118,16 +116,10 @@ class SinDientes(activity.Activity):
             self._actualizar_palabra()
         return False
 
-    def read_file(self, filepath):
-        pass
-
-    def write_file(self, filepath):
-        pass
-
     def main(self):
         gtk.main()
 
-    def load_puntaje(self):
+    def _load_puntaje(self):
         if exists("data/puntaje.pck"):
             f_read = open("data/puntaje.pck", "rb")
             x = pickle.load(f_read)
@@ -224,28 +216,12 @@ class SinDientes(activity.Activity):
                 pista += '_ '
         self.palabra_label.set_text(pista)
 
-    def _leer_diario(self):
-        try:
-            _logger.debug('leyedo diario')
-            _logger.debug('aciertos: %s' % self.metadata['aciertos'])
-            self.aciertos = int(self.metadata['aciertos'])
-            self.palabra = str(self.metadata['palabra'])
-            self.l_aciertos = list(self.metadata['l_aciertos'])
-            self.l_errores = list(self.metadata['l_errores'])
-            self._creacion(False)
-        except:
-            self._creacion(True)
-
     def read_file(self, filepath):
-        _logger.debug('leyendo desde  %s' % filepath)
-        self._leer_diario()
+        pass
 
     def write_file(self, filepath):
-        _logger.debug('Guardando en: %s' % filepath)
-        self.metadata['aciertos'] = self.aciertos
-        self.metadata['palabra'] = self.palabra
-        self.metadata['l_aciertos'] = self.l_aciertos
-        self.metadata['l_errores'] = self.l_errores
-        self.metadata['mime_type'] = 'application/x-sindientes'
-        
-        self._guardar_puntaje()
+        pass
+
+    def close(self, skip_save=False):
+        '''override the close to jump the journal'''
+        activity.Activity.close(self, True)

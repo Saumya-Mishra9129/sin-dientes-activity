@@ -1,9 +1,9 @@
 [Activity]
-name = Sin Dientes
-service_name = org.laptop.sindientes
-class = activity.SinDientes
+name = Chintano 
+service_name = org.laptop.chintano
+class = activity.Chintano
 icon = icono.sugar
-activity_version = 1
+activity_version = 2 
 show_launcher = yes
-mime_types = application/x-sindientes
+mime_types = application/x-chintano
 licence = GPL
