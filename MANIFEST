@@ -1,7 +1,7 @@
-puntaje.pck
+
 setup.py
 utils.py
-ahorcado.py
+
 activity.py
 resources/1.png
 resources/6.png
@@ -17,3 +17,6 @@ resources/0.png
 activity/icono.svg
 activity/activity.info
 activity/icono.sugar.svg
+.activity.py.swp
+ROADMAP
+activity/.activity.info.swp

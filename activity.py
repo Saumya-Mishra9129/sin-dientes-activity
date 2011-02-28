@@ -16,8 +16,6 @@ class Chintano(activity.Activity):
     def __init__(self, handle):
         super(Chintano, self).__init__(handle)
         #ventana
-        #self.ventana = gtk.Window()
-        #self.ventana.set_title(_('Ahorcado'))
         self.set_title(_('Sin Dientes'))
         self.connect('key-press-event', self._key_press_cb)
 
@@ -45,7 +43,7 @@ class Chintano(activity.Activity):
                 
         #interface
         self.imagen = gtk.Image()
-        self.instrucciones_label = gtk.Label(_('Instrucciones'))
+        self.instrucciones_label = gtk.Label()
         self.instrucciones_label.set_justify(gtk.JUSTIFY_FILL)
         self.instrucciones_label.set_line_wrap(gtk.TRUE)
         self.aciertos_label = gtk.Label('Puntaje: 0')
@@ -53,30 +51,32 @@ class Chintano(activity.Activity):
         self.palabra_label = gtk.Label()
         self.letrasusadas_label = gtk.Label(_('Letras Usadas: '))
         self.palabra_entry = gtk.Entry()
-        self.ok_btn = gtk.Button(_('Ok'))
+        self.ok_btn = gtk.Button(_('Ingresar'))
         self.ok_btn.connect('clicked', self._ok_btn_clicked_cb, None)
         self.nuevojuego_btn = gtk.Button(_('Nuevo Juego'))
         self.nuevojuego_btn.connect('clicked', self._nuevojuego_btn_clicked_cb, None)
         self._cambiar_imagen(0)
-
+        self.palabra_entry.set_sensitive(False)
+        self.ok_btn.set_sensitive(False)         
         self.aciertos = 0 #Cuenta los aciertos de letras en la palabra secreta
         self.lista_record = self._load_puntaje()
 
         #agregando elementos
+        self.marco = gtk.Frame(_("Instrucciones"))
         self.contenedor_superior.pack_start(self.imagen)
-        self.contenedor_superior.pack_start(self.subcontenedor)
+        self.contenedor_superior.pack_start(self.marco)
         self.subcontenedor.pack_start(self.instrucciones_label)
         self.subcontenedor.pack_start(self.aciertos_label)
         self.subcontenedor.pack_start(self.letrasusadas_label)
         self.subcontenedor.pack_start(self.errores_label)
         self.subcontenedor.pack_start(self.palabra_label)
-        self.subcontenedor.pack_start(self.nuevojuego_btn)
+        self.marco.add(self.subcontenedor)
 
         self.contenedor_inferior.pack_start(self.palabra_entry)
         self.contenedor_inferior.pack_start(self.ok_btn, False)
+        self.contenedor_inferior.pack_start(self.nuevojuego_btn, False)
         
         self.contenedor.show_all()
-        self.nuevojuego_btn.hide()
         self.set_canvas(self.contenedor)
         self.show()
 
@@ -91,8 +91,7 @@ class Chintano(activity.Activity):
         else:
             self._cambiar_imagen(self.errores)
         
-        self._actualizar_labels('Instrucciones')
-        self.nuevojuego_btn.hide()
+        self._actualizar_labels(_('El juego ha empezado'))
         self._pintar_palabra()
 
     def _ok_btn_clicked_cb(self, widget, data=None):
@@ -145,7 +144,7 @@ class Chintano(activity.Activity):
         if (len(letra_actual) is not 1 or letra_actual == " "): 
             self.palabra_entry.set_text('')
             _logger.debug('mas de una letra o vacio')
-            self.instrucciones_label.set_text(_("Instrucciones:\nIntroduzca solo una letra!"))
+            self.instrucciones_label.set_text(_("Introduzca solo una letra!"))
         
         #Evalua si letra esta dentro de palabra
         elif (letra_actual in self.palabra and letra_actual not in self.l_aciertos):
@@ -156,19 +155,19 @@ class Chintano(activity.Activity):
                     self.aciertos += 1
             
             _logger.debug('letra dentro de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
-            self._actualizar_labels("Instrucciones:\nLetra dentro de palabra secreta!")
+            self._actualizar_labels("Letra dentro de palabra secreta!")
             
             #Evalua si se acerto la palabra y temina el juego
             if (self.aciertos == len(self.palabra)): 
                 _logger.debug('acerto palabra')
-                self.instrucciones_label.set_text(_('Instrucciones:\nAcertastes la palabra secreta, ' \
+                self.instrucciones_label.set_text(_('Acertastes la palabra secreta, ' \
                                                     'FELICIDADES! \n su significado es: %s' % self.significado))
                 self.nuevojuego_btn.show() # muestra el boton para comenzar el juego
 
         #Evalua si letra es repetida y esta dentro de palabra
         elif (letra_actual in self.palabra and letra_actual in self.l_aciertos): 
             _logger.debug('letra repetida y dentro de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
-            self._actualizar_labels("Instrucciones:\nLetra repetida y dentro de palabra secreta!")
+            self._actualizar_labels("Letra repetida y dentro de palabra secreta!")
 
         #Evalua si letra no esta dentro de palabra
         elif (letra_actual not in self.palabra and letra_actual not in self.l_errores):
@@ -176,23 +175,23 @@ class Chintano(activity.Activity):
             self.errores += 1
             self._cambiar_imagen(self.errores)
             _logger.debug('letra fuera de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
-            self._actualizar_labels("Instrucciones:\nLetra fuera de palabra secreta!")
+            self._actualizar_labels("Letra fuera de palabra secreta!")
             
             #Evalua si se completo el ahorcado y temina el juego            
             if (self.errores >= 8):
                 _logger.debug('fin del juego')
-                self.instrucciones_label.set_text(_('Instrucciones:\nLa palabra secreta era %s, ' \
+                self.instrucciones_label.set_text(_('La palabra secreta era %s, ' \
                                                     'Fin del juego! x( su significado es %s' % 
                                                     (self.palabra, self.significado)) )
                 self.aciertos = 0
                 self.palabra_entry.set_sensitive(False) #Activa la caja de texto
                 self.ok_btn.set_sensitive(False) #Inactiva el botón ok una vez que pierde
-                self.nuevojuego_btn.show() # muestra el boton para comenzar el juego
+                
 
         #Evalua si letra es repetida y no dentro de palabra
         elif (letra_actual not in self.palabra and letra_actual in self.l_errores): 
             _logger.debug('letra repetida y fuera de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
-            self._actualizar_labels("Instrucciones:\nLetra repetida y fuera de palabra secreta!")
+            self._actualizar_labels("Letra repetida y fuera de palabra secreta!")
 
         self._pintar_palabra()
         
