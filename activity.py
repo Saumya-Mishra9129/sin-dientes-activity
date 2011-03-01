@@ -26,22 +26,23 @@ class Chintano(activity.Activity):
 
         #contenedores
         self.contenedor = gtk.VBox()
-        #self.ventana.add(self.contenedor)
-
-
         self.contenedor_superior = gtk.HBox()
         self.contenedor_inferior= gtk.HBox()
-        
         self.contenedor.pack_start(self.contenedor_superior)
         self.contenedor.pack_start(self.contenedor_inferior, expand=False)
-
-        """self.contenedor_puntaje = gtk.VBox()#desde aca lleva interface de los tres mejores puntajes
-        self.primero_label = gtk.Label("Primer Puntaje : " % _load_puntaje())
-        self.contenedor_puntaje.pack_start(self.primero_label, False, False, 0)"""
-
         self.subcontenedor= gtk.VBox()
-                
-        #interface
+        self.contenedor_nivel = gtk.VBox()
+
+        #interface nivel
+        self.nivel_1 = gtk.Button(_('Nivel 1'))
+        self.nivel_1.connect('clicked', self._nivel_uno_cb, None)
+        self.nivel_2 = gtk.Button(_('Nivel 2'))
+        self.nivel_2.connect('clicked', self._nivel_dos_cb, None)
+        self.nivel_3 = gtk.Button(_('Nivel 3'))
+        self.nivel_3.connect('clicked', self._nivel_tres_cb, None)
+        self.bienvenida = gtk.Label(_('Bienvenido a \"Sin Diente\"'))
+
+        #interface juego
         self.imagen = gtk.Image()
         self.instrucciones_label = gtk.Label()
         self.instrucciones_label.set_justify(gtk.JUSTIFY_FILL)
@@ -55,16 +56,19 @@ class Chintano(activity.Activity):
         self.ok_btn.connect('clicked', self._ok_btn_clicked_cb, None)
         self.nuevojuego_btn = gtk.Button(_('Nuevo Juego'))
         self.nuevojuego_btn.connect('clicked', self._nuevojuego_btn_clicked_cb, None)
+        self.atras_btn = gtk.Button(_('Atras'))
+        self.atras_btn.connect('clicked', self._atras_cb)
         self._cambiar_imagen(0)
         self.palabra_entry.set_sensitive(False)
         self.ok_btn.set_sensitive(False)         
         self.aciertos = 0 #Cuenta los aciertos de letras en la palabra secreta
         self.lista_record = self._load_puntaje()
 
-        #agregando elementos
+        #agregando elementos juego
         self.marco = gtk.Frame(_("Instrucciones"))
         self.contenedor_superior.pack_start(self.imagen)
         self.contenedor_superior.pack_start(self.marco)
+     
         self.subcontenedor.pack_start(self.instrucciones_label)
         self.subcontenedor.pack_start(self.aciertos_label)
         self.subcontenedor.pack_start(self.letrasusadas_label)
@@ -72,12 +76,21 @@ class Chintano(activity.Activity):
         self.subcontenedor.pack_start(self.palabra_label)
         self.marco.add(self.subcontenedor)
 
-        self.contenedor_inferior.pack_start(self.palabra_entry)
-        self.contenedor_inferior.pack_start(self.ok_btn, False)
-        self.contenedor_inferior.pack_start(self.nuevojuego_btn, False)
+        self.contenedor_inferior.pack_start(self.atras_btn, False, padding = 6)
+        self.contenedor_inferior.pack_start(self.palabra_entry, padding = 1)
+        self.contenedor_inferior.pack_start(self.ok_btn, False, padding = 1)
+        self.contenedor_inferior.pack_start(self.nuevojuego_btn, False, padding = 1)
+                
+        #agregando elementos de nivel
+        self.contenedor_nivel_h = gtk.HBox()
+        self.contenedor_nivel_h.pack_start(self.contenedor_nivel, padding = 100)
+        self.contenedor_nivel.pack_start(self.bienvenida, False, padding = 90)
+        self.contenedor_nivel.pack_start(self.nivel_1, False, padding = 10)
+        self.contenedor_nivel.pack_start(self.nivel_2, False, padding = 10)
+        self.contenedor_nivel.pack_start(self.nivel_3, False, padding = 10)
+        self.contenedor_nivel_h.show_all()
+        self.set_canvas(self.contenedor_nivel_h)
         
-        self.contenedor.show_all()
-        self.set_canvas(self.contenedor)
         self.show()
 
     def _creacion(self, nuevo=True):
@@ -93,6 +106,21 @@ class Chintano(activity.Activity):
         
         self._actualizar_labels(_('El juego ha empezado'))
         self._pintar_palabra()
+
+    def _atras_cb(self, widget, data=None):
+        self.set_canvas(self.contenedor_nivel_h)
+
+    def _nivel_uno_cb(self, widget, data=None):
+        self.contenedor.show_all()
+        self.set_canvas(self.contenedor)
+
+    def _nivel_dos_cb(self, widget, data=None):
+        self.contenedor.show_all()
+        self.set_canvas(self.contenedor)
+
+    def _nivel_tres_cb(self, widget, data=None):
+        self.contenedor.show_all()
+        self.set_canvas(self.contenedor)
 
     def _ok_btn_clicked_cb(self, widget, data=None):
         self._actualizar_palabra()
