@@ -33,6 +33,10 @@ class Chintano(activity.Activity):
         self.subcontenedor= gtk.VBox()
         self.contenedor_nivel = gtk.VBox()
 
+        #interface instrucciones
+        self.contenedor_instruc = gtk.HBox()
+        
+        
         #interface nivel
         self.nivel_1 = gtk.Button(_('Nivel 1'))
         self.nivel_1.connect('clicked', self._nivel_uno_cb, None)
@@ -130,7 +134,8 @@ class Chintano(activity.Activity):
         self.set_canvas(self.contenedor)
 
     def _instrucciones_cb(self, widget, data=None):
-        pass
+        self.contenedor_instruc.show()
+        self.set_canvas(self.contenedor_instruc)
 
     def _importar_cb(self, widget, data=None):
         pass
