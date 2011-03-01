@@ -40,6 +40,10 @@ class Chintano(activity.Activity):
         self.nivel_2.connect('clicked', self._nivel_dos_cb, None)
         self.nivel_3 = gtk.Button(_('Nivel 3'))
         self.nivel_3.connect('clicked', self._nivel_tres_cb, None)
+        self.instrucciones = gtk.Button(_('Instrucciones'))
+        self.instrucciones.connect('clicked', self._instrucciones_cb, None)
+        self.importar_btn = gtk.Button(_('Agregar palabras'))
+        self.importar_btn.connect('clicked', self._importar_cb, None)
         self.bienvenida = gtk.Label(_('Bienvenido a \"Sin Diente\"'))
 
         #interface juego
@@ -66,13 +70,14 @@ class Chintano(activity.Activity):
 
         #agregando elementos juego
         self.marco = gtk.Frame(_("Instrucciones"))
+        self.marco.set_size_request(350, -1)
         self.contenedor_superior.pack_start(self.imagen)
         self.contenedor_superior.pack_start(self.marco)
      
         self.subcontenedor.pack_start(self.instrucciones_label)
         self.subcontenedor.pack_start(self.aciertos_label)
-        self.subcontenedor.pack_start(self.letrasusadas_label)
         self.subcontenedor.pack_start(self.errores_label)
+        self.subcontenedor.pack_start(self.letrasusadas_label)
         self.subcontenedor.pack_start(self.palabra_label)
         self.marco.add(self.subcontenedor)
 
@@ -88,6 +93,8 @@ class Chintano(activity.Activity):
         self.contenedor_nivel.pack_start(self.nivel_1, False, padding = 10)
         self.contenedor_nivel.pack_start(self.nivel_2, False, padding = 10)
         self.contenedor_nivel.pack_start(self.nivel_3, False, padding = 10)
+        self.contenedor_nivel.pack_start(self.instrucciones, False, padding = 10)
+        self.contenedor_nivel.pack_start(self.importar_btn, False, padding = 10)
         self.contenedor_nivel_h.show_all()
         self.set_canvas(self.contenedor_nivel_h)
         
@@ -121,6 +128,12 @@ class Chintano(activity.Activity):
     def _nivel_tres_cb(self, widget, data=None):
         self.contenedor.show_all()
         self.set_canvas(self.contenedor)
+
+    def _instrucciones_cb(self, widget, data=None):
+        pass
+
+    def _importar_cb(self, widget, data=None):
+        pass
 
     def _ok_btn_clicked_cb(self, widget, data=None):
         self._actualizar_palabra()
