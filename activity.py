@@ -34,22 +34,35 @@ class Chintano(activity.Activity):
         self.contenedor_nivel = gtk.VBox()
 
         #interface instrucciones
+        self.area_instruc = gtk.ScrolledWindow()
+        self.area_instruc.set_shadow_type(gtk.SHADOW_OUT)
+        self.area_instruc.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
         self.contenedor_instruc = gtk.VBox()
         self.contenedor_instruc_1 = gtk.HBox()
         self.contenedor_instruc_2 = gtk.HBox()
+        self.contenedor_instruc_3 = gtk.HBox()
         self.imagen_1 = gtk.Image()
         self.imagen_1.set_from_file('resources/sindiente1.png')
+        self.imagen_2 = gtk.Image()
+        self.imagen_2.set_from_file('resources/sindiente2.png')
+        self.imagen_3 = gtk.Image()
+        self.imagen_3.set_from_file('resources/sindiente3.png')
         self.instruc = gtk.Label(_('Instrucciones'))
         self.instruc_1 = gtk.Label(_('Oprime el botón “Nuevo Juego” para empezar a jugar.'))
-        self.instruc_2 = gtk.Label(_('La lineas representan las letras de las palabras que están ocultas. Cuenta las letras se compone la palabra.'))
-        self.instruc_3 = gtk.Label(_('Ingresa una letra en el espacio en blanco y oprime el botón “Ingresar”. Si descubres una letra esta aparecerá sobre la linea y ganarás un punto. Pero si fallas, tu amigo perderá un diente.'))
+        self.instruc_2 = gtk.Label(_('La lineas representan las letras de las palabras que están ocultas.\nCuenta las letras se compone la palabra.'))
+        self.instruc_3 = gtk.Label(_('Ingresa una letra en el espacio en blanco y oprime \nel botón “Ingresar”. Si descubres una letra esta aparecerá sobre \nla linea y ganarás un punto.Pero si fallas, tu amigo \nperderá un diente.'))
         self.instruc_4 = gtk.Label(_('Las letras que ya han sido ingresadas no podrán ser usada de nuevo y aparecerán en el área de \“Letras Usadas\”'))
         self.contenedor_instruc_1.pack_start(self.instruc_1)
         self.contenedor_instruc_1.pack_start(self.imagen_1)
+        self.contenedor_instruc_2.pack_start(self.imagen_2)
+        self.contenedor_instruc_2.pack_start(self.instruc_2)
+        self.contenedor_instruc_3.pack_start(self.instruc_3)
+        self.contenedor_instruc_3.pack_start(self.imagen_3)
         self.contenedor_instruc.pack_start(self.instruc)
         self.contenedor_instruc.pack_start(self.contenedor_instruc_1)
-        #self.contenedor_instruc.pack_start(self.contenedor_instruc_2)
-        
+        self.contenedor_instruc.pack_start(self.contenedor_instruc_2)
+        self.contenedor_instruc.pack_start(self.contenedor_instruc_3)
+        self.area_instruc.add(self.contenedor_instruc)
         
         #interface menu 
         self.nivel_1 = gtk.Button(_('Nivel 1'))
@@ -148,8 +161,8 @@ class Chintano(activity.Activity):
         self.set_canvas(self.contenedor)
 
     def _instrucciones_cb(self, widget, data=None):
-        self.contenedor_instruc.show_all()
-        self.set_canvas(self.contenedor_instruc)
+        self.area_instruc.show_all()
+        self.set_canvas(self.area_instruc)
 
     def _importar_cb(self, widget, data=None):
         pass
