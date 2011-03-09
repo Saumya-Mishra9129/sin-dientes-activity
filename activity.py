@@ -7,6 +7,7 @@ from os.path import exists
 from datetime import datetime
 import pickle
 import utils
+import pango
 
 _logger = logging.getLogger('chintano-activity')
 _logger.setLevel(logging.DEBUG)
@@ -35,8 +36,9 @@ class Chintano(activity.Activity):
 
         #interface instrucciones
         self.area_instruc = gtk.ScrolledWindow()
-        #self.area_instruc.set_shadow_type(gtk.SHADOW_OUT)
-        self.area_instruc.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+        self.area_instruc.set_shadow_type(gtk.SHADOW_OUT)
+        self.estilo_letra = pango.FontDescription("Purisa 10")
+        self.area_instruc.set_policy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
         self.contenedor_instruc = gtk.VBox()
         self.contenedor_instruc_1 = gtk.HBox()
         self.contenedor_instruc_2 = gtk.HBox()
@@ -52,9 +54,13 @@ class Chintano(activity.Activity):
         self.imagen_4.set_from_file('resources/sindiente4.png')
         self.instruc = gtk.Label(_('Instrucciones'))
         self.instruc_1 = gtk.Label(_('Oprime el botón “Nuevo Juego” para empezar a \njugar.'))
+        self.instruc_1.modify_font(self.estilo_letra)
         self.instruc_2 = gtk.Label(_('La lineas representan las letras de las palabras \nque están ocultas. Cuenta las letras se compone \nla palabra.'))
+        self.instruc_2.modify_font(self.estilo_letra)
         self.instruc_3 = gtk.Label(_('Ingresa una letra en el espacio en blanco y oprime \nel botón “Ingresar”. Si descubres una letra esta \naparecerá sobre la linea y ganarás un punto.\nPero si fallas, tu amigo perderá un diente.'))
-        self.instruc_4 = gtk.Label(_('Las letras que ya han sido ingresadas no podrán ser \nusada de nuevo y aparecerán en el área de Letras Usadas'))
+        self.instruc_3.modify_font(self.estilo_letra)
+        self.instruc_4 = gtk.Label(_('Las letras que ya han sido ingresadas no podrán ser \nusada de nuevo y aparecerán en el área de "Letras Usadas"'))
+        self.instruc_4.modify_font(self.estilo_letra)
         self.contenedor_instruc_1.pack_start(self.instruc_1)
         self.contenedor_instruc_1.pack_start(self.imagen_1)
         self.contenedor_instruc_2.pack_start(self.imagen_2)
@@ -63,12 +69,14 @@ class Chintano(activity.Activity):
         self.contenedor_instruc_3.pack_start(self.imagen_3)
         self.contenedor_instruc_4.pack_start(self.imagen_4)
         self.contenedor_instruc_4.pack_start(self.instruc_4)
-        self.contenedor_instruc.pack_start(self.instruc, False)
-        self.contenedor_instruc.pack_start(self.contenedor_instruc_1)
-        self.contenedor_instruc.pack_start(self.contenedor_instruc_2)
-        self.contenedor_instruc.pack_start(self.contenedor_instruc_3)
-        self.contenedor_instruc.pack_start(self.contenedor_instruc_4)
-        self.area_instruc.add(self.contenedor_instruc)
+        self.contenedor_instruc.pack_start(self.instruc, padding=25)
+        self.contenedor_instruc.pack_start(self.contenedor_instruc_1, padding=50)
+        self.contenedor_instruc.pack_start(self.contenedor_instruc_2, padding=50)
+        self.contenedor_instruc.pack_start(self.contenedor_instruc_3, padding=50)
+        self.contenedor_instruc.pack_start(self.contenedor_instruc_4, padding=15)
+        self.atras_btn = gtk.Button(_('Atras'))
+        self.contenedor_instruc.pack_start(self.atras_btn, False)
+        self.area_instruc.add_with_viewport(self.contenedor_instruc)
         
         #interface menu 
         self.nivel_1 = gtk.Button(_('Nivel 1'))
@@ -97,7 +105,6 @@ class Chintano(activity.Activity):
         self.ok_btn.connect('clicked', self._ok_btn_clicked_cb, None)
         self.nuevojuego_btn = gtk.Button(_('Nuevo Juego'))
         self.nuevojuego_btn.connect('clicked', self._nuevojuego_btn_clicked_cb, None)
-        self.atras_btn = gtk.Button(_('Atras'))
         self.atras_btn.connect('clicked', self._atras_cb)
         self._cambiar_imagen(0)
         self.palabra_entry.set_sensitive(False)
