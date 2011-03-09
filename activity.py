@@ -83,6 +83,7 @@ class Chintano(activity.Activity):
         self.nivel_2.connect('clicked', self._nivel_dos_cb, None)
         self.nivel_3 = gtk.Button(_('Nivel 3'))
         self.nivel_3.connect('clicked', self._nivel_tres_cb, None)
+        self.nivel_4 = gtk.Button(_('Modo Juego'))
         self.instrucciones = gtk.Button(_('Instrucciones'))
         self.instrucciones.connect('clicked', self._instrucciones_cb, None)
         self.importar_btn = gtk.Button(_('Agregar palabras'))
