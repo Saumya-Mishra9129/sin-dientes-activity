@@ -35,6 +35,7 @@ class Chintano(activity.Activity):
         self.contenedor_nivel = gtk.VBox()
 
         #interface instrucciones
+        self.modificar_text = pango.FontDescription("Bold 10")
         self.area_instruc = gtk.ScrolledWindow()
         self.area_instruc.set_shadow_type(gtk.SHADOW_OUT)
         self.area_instruc.set_policy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
@@ -52,6 +53,7 @@ class Chintano(activity.Activity):
         self.imagen_4 = gtk.Image()
         self.imagen_4.set_from_file('resources/sindiente4.png')
         self.instruc = gtk.Label(_('Instrucciones'))
+        self.instruc.modify_font(self.modificar_text)
         self.instruc_1 = gtk.Label(_('Oprime el botón “Nuevo Juego” para empezar a \njugar.'))
         self.instruc_2 = gtk.Label(_('La lineas representan las letras de las palabras \nque están ocultas. Cuenta las letras se compone \nla palabra.'))
         self.instruc_3 = gtk.Label(_('Ingresa una letra en el espacio en blanco y oprime \nel botón “Ingresar”. Si descubres una letra esta \naparecerá sobre la linea y ganarás un punto.\nPero si fallas, tu amigo perderá un diente.'))
@@ -69,8 +71,9 @@ class Chintano(activity.Activity):
         self.contenedor_instruc.pack_start(self.contenedor_instruc_2, padding=50)
         self.contenedor_instruc.pack_start(self.contenedor_instruc_3, padding=50)
         self.contenedor_instruc.pack_start(self.contenedor_instruc_4, padding=15)
-        self.atras_btn = gtk.Button(_('Atras'))
-        self.contenedor_instruc.pack_start(self.atras_btn, False)
+        self.atras_btn_1 = gtk.Button(_('Atras'))
+        self.contenedor_instruc.pack_start(self.atras_btn_1, False)
+        self.atras_btn_1.connect('clicked', self._atras_cb)
         self.area_instruc.add_with_viewport(self.contenedor_instruc)
         
         #interface menu 
@@ -100,6 +103,7 @@ class Chintano(activity.Activity):
         self.ok_btn.connect('clicked', self._ok_btn_clicked_cb, None)
         self.nuevojuego_btn = gtk.Button(_('Nuevo Juego'))
         self.nuevojuego_btn.connect('clicked', self._nuevojuego_btn_clicked_cb, None)
+        self.atras_btn = gtk.Button(_('Atras'))
         self.atras_btn.connect('clicked', self._atras_cb)
         self._cambiar_imagen(0)
         self.palabra_entry.set_sensitive(False)
