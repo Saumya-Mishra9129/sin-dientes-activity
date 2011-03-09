@@ -33,17 +33,18 @@ class Chintano(activity.Activity):
         self.contenedor.pack_start(self.contenedor_inferior, expand=False)
         self.subcontenedor= gtk.VBox()
         self.contenedor_nivel = gtk.VBox()
+        self.contenedor_instruc = gtk.VBox()
+        self.contenedor_instruc_1 = gtk.HBox()
+        self.contenedor_instruc_2 = gtk.HBox()
+        self.contenedor_instruc_3 = gtk.HBox()
+        self.contenedor_instruc_4 = gtk.HBox()
+
 
         #interface instrucciones
         self.modificar_text = pango.FontDescription("Bold 10")
         self.area_instruc = gtk.ScrolledWindow()
         self.area_instruc.set_shadow_type(gtk.SHADOW_OUT)
         self.area_instruc.set_policy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
-        self.contenedor_instruc = gtk.VBox()
-        self.contenedor_instruc_1 = gtk.HBox()
-        self.contenedor_instruc_2 = gtk.HBox()
-        self.contenedor_instruc_3 = gtk.HBox()
-        self.contenedor_instruc_4 = gtk.HBox()
         self.imagen_1 = gtk.Image()
         self.imagen_1.set_from_file('resources/sindiente1.png')
         self.imagen_2 = gtk.Image()
@@ -83,7 +84,6 @@ class Chintano(activity.Activity):
         self.nivel_2.connect('clicked', self._nivel_dos_cb, None)
         self.nivel_3 = gtk.Button(_('Nivel 3'))
         self.nivel_3.connect('clicked', self._nivel_tres_cb, None)
-        self.nivel_4 = gtk.Button(_('Modo Juego'))
         self.instrucciones = gtk.Button(_('Instrucciones'))
         self.instrucciones.connect('clicked', self._instrucciones_cb, None)
         self.importar_btn = gtk.Button(_('Agregar palabras'))
@@ -111,6 +111,15 @@ class Chintano(activity.Activity):
         self.ok_btn.set_sensitive(False)         
         self.aciertos = 0 #Cuenta los aciertos de letras en la palabra secreta
         self.lista_record = self._load_puntaje()
+    
+        #interface importar
+        self.nueva_palabra = gtk.Entry()
+        self.boton_np = gtk.Button(_('Ingresar palabra'))
+        self.contenedor_np_v = gtk.VBox()
+        self.contenedor_np = gtk.HBox()
+        self.contenedor_np_v.pack_start(self.contenedor_np, False, padding=250)
+        self.contenedor_np.pack_start(self.nueva_palabra, padding=15)
+        self.contenedor_np.pack_start(self.boton_np, False, padding=15)
 
         #agregando elementos juego
         self.marco = gtk.Frame(_("Instrucciones"))
@@ -178,7 +187,8 @@ class Chintano(activity.Activity):
         self.set_canvas(self.area_instruc)
 
     def _importar_cb(self, widget, data=None):
-        pass
+        self.contenedor_np_v.show_all()
+        self.set_canvas(self.contenedor_np_v)
 
     def _ok_btn_clicked_cb(self, widget, data=None):
         self._actualizar_palabra()
