@@ -47,26 +47,32 @@ class Chintano(activity.Activity):
         self.contenedor_np_2 = gtk.HBox()
 
         #interface menu 
+        self.imagen_menu = gtk.Image()
+        self.imagen_menu.set_from_file('resources/menu.png')
         self.nivel_1 = gtk.Button(_('Nivel 1'))
         self.nivel_1.connect('clicked', self._nivel_uno_cb, None)
         self.nivel_2 = gtk.Button(_('Nivel 2'))
         self.nivel_2.connect('clicked', self._nivel_dos_cb, None)
         self.nivel_3 = gtk.Button(_('Nivel 3'))
         self.nivel_3.connect('clicked', self._nivel_tres_cb, None)
-        self.instrucciones = gtk.Button(_('Instrucciones'))
-        self.instrucciones.connect('clicked', self._instrucciones_cb, None)
-        self.importar_btn = gtk.Button(_('Agregar palabra'))
+        self.importar_btn = gtk.Button(_('Importar lista de palabra'))
         self.importar_btn.connect('clicked', self._importar_cb, None)
+        self.instrucciones = gtk.Button(_('Instrucciones de juego'))
+        self.instrucciones.connect('clicked', self._instrucciones_cb, None)
+        self.nuevapalabra_btn = gtk.Button(_('Agregar palabra'))
+        self.nuevapalabra_btn.connect('clicked', self._nuevapalabra_cb, None)
         self.bienvenida = gtk.Label(_('Bienvenido a \"Sin Diente\"'))
         self.bienvenida.modify_font(self.modificar_text)
 
         #agregando elementos de menú
         self.contenedor_nivel_h = gtk.HBox()
         self.contenedor_nivel_h.pack_start(self.contenedor_nivel, padding = 100)
-        self.contenedor_nivel.pack_start(self.bienvenida, False, padding = 90)
+        self.contenedor_nivel.pack_start(self.bienvenida, False, padding = 15)
+        self.contenedor_nivel.pack_start(self.imagen_menu, False, padding = 15)
         self.contenedor_nivel.pack_start(self.nivel_1, False, padding = 10)
         self.contenedor_nivel.pack_start(self.nivel_2, False, padding = 10)
         self.contenedor_nivel.pack_start(self.nivel_3, False, padding = 10)
+        self.contenedor_nivel.pack_start(self.nuevapalabra_btn, False, padding = 10)
         self.contenedor_nivel.pack_start(self.importar_btn, False, padding = 10)
         self.contenedor_nivel.pack_start(self.instrucciones, False, padding = 10)
         self.contenedor_nivel_h.show_all()
@@ -149,7 +155,7 @@ class Chintano(activity.Activity):
         self.contenedor_instruc.pack_start(self.atras_btn_1)
         self.area_instruc.add_with_viewport(self.contenedor_instruc)
 
-        #interface importar
+        #interface nueva palabra
         self.nueva_palabra_label = gtk.Label(_('Ingresa una palabra para jugar'))
         self.nueva_palabra_label.modify_font(self.modificar_text)
         self.n_palabra_label = gtk.Label(_('Palabra'))
@@ -161,7 +167,7 @@ class Chintano(activity.Activity):
         self.atras_imp = gtk.Button(_('Atrás'))
         self.atras_imp.connect('clicked', self._atras_cb)
 
-        #agregando elementos de importar
+        #agregando elementos de nueva palabra
         self.contenedor_np_v.pack_start(self.nueva_palabra_label, False, padding=80)
         self.contenedor_np_v.pack_start(self.n_palabra_label, False)
         self.contenedor_np_v.pack_start(self.nueva_palabra, False, padding=25)
@@ -171,6 +177,19 @@ class Chintano(activity.Activity):
         self.contenedor_np_1.pack_start(self.atras_imp, True, False)
         self.contenedor_np_1.pack_start(self.boton_np, True, False)
         self.contenedor_np_2.pack_start(self.contenedor_np_v, padding=100)
+
+        #interface importar
+        self.combo = self.combo = gtk.combo_box_new_text()
+        self.combo.set_size_request(180, -1)
+        self.boton_importar = gtk.Button(_('Importar'))
+        self.archivo = gtk.FileChooserWidget()
+        self.archivo.set_current_folder('/media')
+        self.niveles = gtk.Label(_('Niveles'))
+        self.importar = gtk.HBox()
+        self.importar.pack_start(self.niveles, False, padding=10)
+        self.importar.pack_start(self.combo, False)
+        self.importar.pack_start(self.boton_importar)
+        self.archivo.set_extra_widget(self.importar)
          
         self.show()
 
@@ -244,6 +263,12 @@ class Chintano(activity.Activity):
         self.set_canvas(self.area_instruc)
 
     def _importar_cb(self, widget, data=None):
+        '''callback del menu'''
+        self.archivo.show_all()
+        self.set_canvas(self.archivo)
+
+    def _nuevapalabra_cb(self, widget, data=None):
+        '''callback del menu'''
         self.contenedor_np_2.show_all()
         self.set_canvas(self.contenedor_np_2)
     
