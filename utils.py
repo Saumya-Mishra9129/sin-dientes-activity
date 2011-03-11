@@ -1,9 +1,10 @@
 import random
 from gettext import gettext as _
 
-def palabra_aleatoria():
+def palabra_aleatoria(nivel):
     """retorna una palabra obtenida del archivo lista_palabras.txt"""
-    archivo = open(_('resources/lista_palabras.es.txt'),'r')
+    path = 'resources/nivel%s.palabra' %(nivel)
+    archivo = open(path,'r')
     palabras = [palabra.lower() for palabra in archivo.readlines()]
     archivo.close()
               

@@ -170,14 +170,16 @@ class Chintano(activity.Activity):
         self.contenedor_np_v.pack_start(self.contenedor_np_1, False, False, 100)
         self.contenedor_np_1.pack_start(self.atras_imp, True, False)
         self.contenedor_np_1.pack_start(self.boton_np, True, False)
+        self.contenedor_np_2.pack_start(self.contenedor_np_v, padding=100)
          
         self.show()
 
     def _crear_interfaz_normal(self):
         '''crea la interfaz de juego'''
+        self.ok_btn.set_sensitive(False)
         self.palabra_entry.set_sensitive(False)
+
         if self.comprobar_interfaz:
-            self.ok_btn.set_sensitive(False)  
             self.contenedor_inferior.remove(self.nuevojuego_imp)
             self.contenedor_inferior.pack_start(self.nuevojuego_btn, False, padding = 1)
             self.comprobar_interfaz = False
@@ -200,7 +202,7 @@ class Chintano(activity.Activity):
                 self.palabra = self.nueva_palabra.get_text()
                 self.significado = self.nuevo_significado.get_text()
             else:
-                self.palabra, self.significado = utils.palabra_aleatoria()
+                self.palabra, self.significado = utils.palabra_aleatoria(self.nivel)
             self.l_aciertos = []
             self.l_errores= []
             self.errores = 0
@@ -210,21 +212,29 @@ class Chintano(activity.Activity):
         
         self._actualizar_labels(_('El juego ha empezado'))
         self._pintar_palabra()
+    
+    def _limpiar(self):
+        '''limpia pantalla'''
+        self.palabra_entry.set_sensitive(False)
+        self.ok_btn.set_sensitive(False) 
 
     def _atras_cb(self, widget, data=None):
         self.set_canvas(self.contenedor_nivel_h)
 
     def _nivel_uno_cb(self, widget, data=None):
+        self.nivel = 1
         self._crear_interfaz_normal()
         self.contenedor.show_all()
         self.set_canvas(self.contenedor)
 
     def _nivel_dos_cb(self, widget, data=None):
+        self.nivel = 2
         self._crear_interfaz_normal()
         self.contenedor.show_all()
         self.set_canvas(self.contenedor)
 
     def _nivel_tres_cb(self, widget, data=None):
+        self.nivel = 3
         self._crear_interfaz_normal()
         self.contenedor.show_all()
         self.set_canvas(self.contenedor)
@@ -234,8 +244,8 @@ class Chintano(activity.Activity):
         self.set_canvas(self.area_instruc)
 
     def _importar_cb(self, widget, data=None):
-        self.contenedor_np_v.show_all()
-        self.set_canvas(self.contenedor_np_v)
+        self.contenedor_np_2.show_all()
+        self.set_canvas(self.contenedor_np_2)
     
     def _nueva_p_cb(self, widget, data=None):
         '''ingresar nueva palabra'''
@@ -251,8 +261,8 @@ class Chintano(activity.Activity):
     
     def _nuevo_juegoimp_cb(self, widget, data=None):
         '''nuevo juego en la interfaz de juego personalizado'''
-        self.contenedor_np_v.show_all()
-        self.set_canvas(self.contenedor_np_v)
+        self.contenedor_np_2.show_all()
+        self.set_canvas(self.contenedor_np_2)
     
     def _ok_btn_clicked_cb(self, widget, data=None):
         self._actualizar_palabra()
@@ -274,9 +284,6 @@ class Chintano(activity.Activity):
             
             self._actualizar_palabra()
         return False
-
-    def main(self):
-        gtk.main()
 
     def _load_puntaje(self):
         if exists("data/puntaje.pck"):
