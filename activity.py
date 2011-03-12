@@ -9,12 +9,12 @@ import pickle
 import utils
 import pango
 
-_logger = logging.getLogger('chintano-activity')
+_logger = logging.getLogger('sindiente-activity')
 
-class Chintano(activity.Activity):
+class Sindiente(activity.Activity):
 
     def __init__(self, handle):
-        super(Chintano, self).__init__(handle)
+        super(Sindiente, self).__init__(handle)
         #ventana
         self.set_title(_('Sin Dientes'))
         self.connect('key-press-event', self._key_press_cb)
@@ -181,6 +181,9 @@ class Chintano(activity.Activity):
         #interface importar
         self.combo = self.combo = gtk.combo_box_new_text()
         self.combo.set_size_request(180, -1)
+        self.combo.append_text(_('Nivel 1'))
+        self.combo.append_text(_('Nivel 2'))
+        self.combo.append_text(_('Nivel 3'))
         self.boton_importar = gtk.Button(_('Importar'))
         self.archivo = gtk.FileChooserWidget()
         self.archivo.set_current_folder('/media')
