@@ -82,7 +82,6 @@ class Sindiente(activity.Activity):
         self.imagen = gtk.Image()
         self.instrucciones_label = gtk.Label()
         self.instrucciones_label.set_justify(gtk.JUSTIFY_FILL)
-        self.instrucciones_label.set_line_wrap(gtk.TRUE)
         self.aciertos_label = gtk.Label(_('Puntaje: 0'))
         self.errores_label = gtk.Label()
         self.palabra_label = gtk.Label()
@@ -184,11 +183,16 @@ class Sindiente(activity.Activity):
         self.combo.append_text(_('Nivel 1'))
         self.combo.append_text(_('Nivel 2'))
         self.combo.append_text(_('Nivel 3'))
+        self.combo.set_active(0)
+        self.atras_btn_imp = gtk.Button(_('Atrás'))
+        self.atras_btn_imp.connect('clicked', self._atras_cb)
         self.boton_importar = gtk.Button(_('Importar'))
+        self.boton_importar.connect('clicked', self._importar_archivo_cb)
         self.archivo = gtk.FileChooserWidget()
         self.archivo.set_current_folder('/media')
         self.niveles = gtk.Label(_('Niveles'))
         self.importar = gtk.HBox()
+        self.importar.pack_start(self.atras_btn_imp, False, padding=5)
         self.importar.pack_start(self.niveles, False, padding=10)
         self.importar.pack_start(self.combo, False)
         self.importar.pack_start(self.boton_importar)
@@ -269,6 +273,14 @@ class Sindiente(activity.Activity):
         '''callback del menu'''
         self.archivo.show_all()
         self.set_canvas(self.archivo)
+
+    def _importar_archivo_cb(self, widget, data=None):
+        '''importa una nueva lista de palabras'''
+        self.modelocombo = self.combo.get_model()
+        self.nivel = self.combo.get_active()
+        self.uri = self.archivo.get_uri()
+        self.uri = self.uri[7:]
+        utils.importar_lista_p(self.uri, self.nivel)
 
     def _nuevapalabra_cb(self, widget, data=None):
         '''callback del menu'''
