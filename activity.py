@@ -85,6 +85,8 @@ class Sindiente(activity.Activity):
         self.aciertos_label = gtk.Label(_('Puntaje: 0'))
         self.errores_label = gtk.Label()
         self.palabra_label = gtk.Label()
+        self.pista_label = gtk.Label()
+        self.pista = gtk.Label()
         self.letrasusadas_label = gtk.Label(_('Letras Usadas: '))
         self.palabra_entry = gtk.Entry()
         self.ok_btn = gtk.Button(_('Ingresar'))
@@ -95,7 +97,6 @@ class Sindiente(activity.Activity):
         self.atras_btn.connect('clicked', self._atras_cb)
         self._cambiar_imagen(0)
         self.aciertos = 0 #Cuenta los aciertos de letras en la palabra secreta
-        self.lista_record = self._load_puntaje()
 
         #agregando elementos juego
         self.marco = gtk.Frame(_("Instrucciones"))
@@ -104,6 +105,8 @@ class Sindiente(activity.Activity):
         self.contenedor_superior.pack_start(self.marco)
      
         self.subcontenedor.pack_start(self.instrucciones_label)
+        self.subcontenedor.pack_start(self.pista_label)
+        self.subcontenedor.pack_start(self.pista)
         self.subcontenedor.pack_start(self.aciertos_label)
         self.subcontenedor.pack_start(self.errores_label)
         self.subcontenedor.pack_start(self.letrasusadas_label)
@@ -158,7 +161,7 @@ class Sindiente(activity.Activity):
         self.nueva_palabra_label = gtk.Label(_('Ingresa una palabra para jugar'))
         self.nueva_palabra_label.modify_font(self.modificar_text)
         self.n_palabra_label = gtk.Label(_('Palabra'))
-        self.nuevo_significado_label = gtk.Label(_('Descripción'))
+        self.nuevo_significado_label = gtk.Label(_('Pista'))
         self.nueva_palabra = gtk.Entry()
         self.nuevo_significado = gtk.Entry()
         self.boton_np = gtk.Button(_('Ingresar palabra'))
@@ -314,43 +317,27 @@ class Sindiente(activity.Activity):
         
     def _cambiar_imagen(self, level):
         ruta = 'resources/%s.png' % level
-        _logger.debug('level: %s' % level)
+        #_logger.debug('level: %s' % level)
         self.imagen.set_from_file(ruta)
 
     def _key_press_cb(self, widget, event):
         keyname = gtk.gdk.keyval_name(event.keyval)
-        _logger.debug('keyname: %s' % keyname)
+        #_logger.debug('keyname: %s' % keyname)
         if keyname == 'Return' or keyname == "KP_Enter":
             
             self._actualizar_palabra()
         return False
 
-    def _load_puntaje(self):
-        if exists("data/puntaje.pck"):
-            f_read = open("data/puntaje.pck", "rb")
-            x = pickle.load(f_read)
-            f_read.close()
-            return x
-        else:
-            return []
-
-    def _guardar_puntaje(self):
-        f_write = open("data/puntaje.pck", "ab")
-        info_gamer = (self.aciertos, datetime.now())
-        self.lista_record.append(info_gamer)
-        pickle.dump(self.lista_record, f_write)
-        f_write.close()
-
     def _actualizar_palabra(self):
 
         #Convierte la letra a minuscula
         letra_actual = self.palabra_entry.get_text().lower()
-        _logger.debug('letra_actual: %s' % letra_actual)
+        #_logger.debug('letra_actual: %s' % letra_actual)
 
         #Evalua si se escribio mas de 1 letra o esta vacio
         if (len(letra_actual) is not 1 or letra_actual == " "): 
             self.palabra_entry.set_text('')
-            _logger.debug('mas de una letra o vacio')
+            #_logger.debug('mas de una letra o vacio')
             self.instrucciones_label.set_text(_("Introduzca solo una letra!"))
         
         #Evalua si letra esta dentro de palabra
@@ -361,19 +348,18 @@ class Sindiente(activity.Activity):
                 if (letra_actual == self.palabra[i]):
                     self.aciertos += 1
             
-            _logger.debug('letra dentro de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
+            #_logger.debug('letra dentro de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
             self._actualizar_labels("Letra dentro de palabra secreta!")
             
             #Evalua si se acerto la palabra y temina el juego
             if (self.aciertos == len(self.palabra)): 
-                _logger.debug('acerto palabra')
-                self.instrucciones_label.set_text(_('Acertastes la palabra secreta, ' \
-                                                    'FELICIDADES! \n su significado es: %s' % self.significado))
+                #_logger.debug('acerto palabra')
+                self.instrucciones_label.set_text(_('Acertastes la palabra secreta, \nFELICIDADES!'))
                 self.nuevojuego_btn.show() # muestra el boton para comenzar el juego
 
         #Evalua si letra es repetida y esta dentro de palabra
         elif (letra_actual in self.palabra and letra_actual in self.l_aciertos): 
-            _logger.debug('letra repetida y dentro de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
+            #_logger.debug('letra repetida y dentro de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
             self._actualizar_labels("Letra repetida y dentro de palabra secreta!")
 
         #Evalua si letra no esta dentro de palabra
@@ -381,15 +367,14 @@ class Sindiente(activity.Activity):
             self.l_errores.append(letra_actual)
             self.errores += 1
             self._cambiar_imagen(self.errores)
-            _logger.debug('letra fuera de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
+            #_logger.debug('letra fuera de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
             self._actualizar_labels("Letra fuera de palabra secreta!")
             
             #Evalua si se completo el ahorcado y temina el juego            
             if (self.errores >= 8):
-                _logger.debug('fin del juego')
+                #_logger.debug('fin del juego')
                 self.instrucciones_label.set_text(_('La palabra secreta era %s, ' \
-                                                    'Fin del juego! x( su significado es %s' % 
-                                                    (self.palabra, self.significado)) )
+                                                    'Fin del juego!' % self.palabra))
                 self.aciertos = 0
                 self.palabra_entry.set_sensitive(False) #Activa la caja de texto
                 self.ok_btn.set_sensitive(False) #Inactiva el botón ok una vez que pierde
@@ -397,7 +382,7 @@ class Sindiente(activity.Activity):
 
         #Evalua si letra es repetida y no dentro de palabra
         elif (letra_actual not in self.palabra and letra_actual in self.l_errores): 
-            _logger.debug('letra repetida y fuera de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
+            #_logger.debug('letra repetida y fuera de palabra, aciertos: %s, errores: %s' %(self.aciertos, self.errores))
             self._actualizar_labels("Letra repetida y fuera de palabra secreta!")
 
         self._pintar_palabra()
@@ -405,6 +390,8 @@ class Sindiente(activity.Activity):
     def _actualizar_labels(self, instrucciones):
         '''Actualiza labels segun instrucciones'''
         self.palabra_entry.set_text('')
+        self.pista_label.set_text(_('Pista'))
+        self.pista.set_text(self.significado)
         self.instrucciones_label.set_text(_(instrucciones))
         self.aciertos_label.set_text(_('Puntaje: %s' % self.aciertos))
         letras = ', '.join(letra for letra in self.l_aciertos)

@@ -13,13 +13,17 @@ def palabra_aleatoria(nivel):
     return palabras[random.randint(0, len(palabras)-1)].split(',')
 
 def validar_uri(uri):
+    log.debug('validar uri')
     lista = uri.split('.')
-    return lista[1]
+    if 'palabra' in lista[1]:
+        return 1
+    else:
+        return 0
 
 def importar_lista_p(uri, nivel):
     '''importa una nueva lista de palabras'''
-    formato_archivo = validar_uri(uri)
-    if formato_archivo is 'palabra'
+    if validar_uri(uri):
+        log.debug('palabra importada')
         path = 'resources/nivel%s.palabra' %(nivel + 1)
         archivo = open(uri, 'r') #lee el archivo a exportar
         archivo_viejo = open(path, 'r+w')
