@@ -36,6 +36,8 @@ class Sindiente(activity.Activity):
         self.contenedor.pack_start(self.contenedor_inferior, expand=False)
         self.subcontenedor= gtk.VBox()
         self.contenedor_nivel = gtk.VBox()
+        self.contenedor_nivel_1 = gtk.VBox()
+        self.contenedor_nivel_2 = gtk.VBox()
         self.contenedor_instruc = gtk.VBox()
         self.contenedor_instruc_1 = gtk.HBox()
         self.contenedor_instruc_2 = gtk.HBox()
@@ -48,12 +50,20 @@ class Sindiente(activity.Activity):
         #interface menu 
         self.imagen_menu = gtk.Image()
         self.imagen_menu.set_from_file('resources/menu.png')
-        self.nivel_1 = gtk.Button(_('Nivel 1'))
+        self.nivel_1 = gtk.Button(_('Animales'))
         self.nivel_1.connect('clicked', self._nivel_uno_cb, None)
-        self.nivel_2 = gtk.Button(_('Nivel 2'))
+        self.nivel_2 = gtk.Button(_('Plantas'))
         self.nivel_2.connect('clicked', self._nivel_dos_cb, None)
-        self.nivel_3 = gtk.Button(_('Nivel 3'))
+        self.nivel_3 = gtk.Button(_('Países'))
         self.nivel_3.connect('clicked', self._nivel_tres_cb, None)
+        self.nivel_4 = gtk.Button(_('Sustantivos'))
+        self.nivel_4.connect('clicked', self._nivel_cuatro_cb, None)
+        self.nivel_5 = gtk.Button(_('Verbos'))
+        self.nivel_5.connect('clicked', self._nivel_cinco_cb, None)
+        self.nivel_6 = gtk.Button(_('Cosas'))
+        self.nivel_6.connect('clicked', self._nivel_seis_cb, None)
+        self.nivel_7 = gtk.Button(_('Valores Morales'))
+        self.nivel_7.connect('clicked', self._nivel_siete_cb, None)
         self.importar_btn = gtk.Button(_('Importar lista de palabra'))
         self.importar_btn.connect('clicked', self._importar_cb, None)
         self.instrucciones = gtk.Button(_('Instrucciones de juego'))
@@ -65,17 +75,23 @@ class Sindiente(activity.Activity):
 
         #agregando elementos de menú
         self.contenedor_nivel_h = gtk.HBox()
-        self.contenedor_nivel_h.pack_start(self.contenedor_nivel, padding = 100)
         self.contenedor_nivel.pack_start(self.bienvenida, False, padding = 15)
         self.contenedor_nivel.pack_start(self.imagen_menu, False, padding = 15)
-        self.contenedor_nivel.pack_start(self.nivel_1, False, padding = 10)
-        self.contenedor_nivel.pack_start(self.nivel_2, False, padding = 10)
-        self.contenedor_nivel.pack_start(self.nivel_3, False, padding = 10)
-        self.contenedor_nivel.pack_start(self.nuevapalabra_btn, False, padding = 10)
-        self.contenedor_nivel.pack_start(self.importar_btn, False, padding = 10)
-        self.contenedor_nivel.pack_start(self.instrucciones, False, padding = 10)
-        self.contenedor_nivel_h.show_all()
-        self.set_canvas(self.contenedor_nivel_h)
+        self.contenedor_nivel.pack_start(self.contenedor_nivel_h)
+        self.contenedor_nivel_h.pack_start(self.contenedor_nivel_1, padding = 20)
+        self.contenedor_nivel_h.pack_start(self.contenedor_nivel_2, padding = 20)
+        self.contenedor_nivel_1.pack_start(self.nivel_1, False, padding = 10)
+        self.contenedor_nivel_1.pack_start(self.nivel_2, False, padding = 10)
+        self.contenedor_nivel_1.pack_start(self.nivel_3, False, padding = 10)
+        self.contenedor_nivel_1.pack_start(self.nivel_4, False, padding = 10)
+        self.contenedor_nivel_1.pack_start(self.instrucciones, False, padding = 10)
+        self.contenedor_nivel_2.pack_start(self.nivel_5, False, padding = 10)
+        self.contenedor_nivel_2.pack_start(self.nivel_6, False, padding = 10)
+        self.contenedor_nivel_2.pack_start(self.nivel_7, False, padding = 10)
+        self.contenedor_nivel_2.pack_start(self.nuevapalabra_btn, False, padding = 10)
+        self.contenedor_nivel_2.pack_start(self.importar_btn, False, padding = 10)
+        self.contenedor_nivel.show_all()
+        self.set_canvas(self.contenedor_nivel)
 
         #interface juego
         self.imagen = gtk.Image()
@@ -190,9 +206,13 @@ class Sindiente(activity.Activity):
         #interface importar
         self.combo = self.combo = gtk.combo_box_new_text()
         self.combo.set_size_request(180, -1)
-        self.combo.append_text(_('Nivel 1'))
-        self.combo.append_text(_('Nivel 2'))
-        self.combo.append_text(_('Nivel 3'))
+        self.combo.append_text(_('Animales'))
+        self.combo.append_text(_('Plantas'))
+        self.combo.append_text(_('Países'))
+        self.combo.append_text(_('Sustantivos'))
+        self.combo.append_text(_('Verbos'))
+        self.combo.append_text(_('Cosas'))
+        self.combo.append_text(_('Valores morales'))
         self.combo.set_active(0)
         self.atras_btn_imp = gtk.Button(_('Atrás'))
         self.atras_btn_imp.connect('clicked', self._atras_cb)
@@ -200,7 +220,7 @@ class Sindiente(activity.Activity):
         self.boton_importar.connect('clicked', self._importar_archivo_cb)
         self.archivo = gtk.FileChooserWidget()
         self.archivo.set_current_folder('/media')
-        self.niveles = gtk.Label(_('Niveles'))
+        self.niveles = gtk.Label(_('Categorías'))
         self.importar = gtk.HBox()
         self.importar.pack_start(self.atras_btn_imp, False, padding=5)
         self.importar.pack_start(self.niveles, False, padding=10)
@@ -263,7 +283,7 @@ class Sindiente(activity.Activity):
         self._cambiar_imagen(0)
 
     def _atras_cb(self, widget, data=None):
-        self.set_canvas(self.contenedor_nivel_h)
+        self.set_canvas(self.contenedor_nivel)
         self._limpiar()
 
     def _nivel_uno_cb(self, widget, data=None):
@@ -280,6 +300,30 @@ class Sindiente(activity.Activity):
 
     def _nivel_tres_cb(self, widget, data=None):
         self.nivel = 3
+        self._crear_interfaz_normal()
+        self.contenedor.show_all()
+        self.set_canvas(self.contenedor)
+    
+    def _nivel_cuatro_cb(self, widget, data=None):
+        self.nivel = 4
+        self._crear_interfaz_normal()
+        self.contenedor.show_all()
+        self.set_canvas(self.contenedor)
+
+    def _nivel_cinco_cb(self, widget, data=None):
+        self.nivel = 5
+        self._crear_interfaz_normal()
+        self.contenedor.show_all()
+        self.set_canvas(self.contenedor)
+    
+    def _nivel_seis_cb(self, widget, data=None):
+        self.nivel = 6
+        self._crear_interfaz_normal()
+        self.contenedor.show_all()
+        self.set_canvas(self.contenedor)
+    
+    def _nivel_siete_cb(self, widget, data=None):
+        self.nivel = 7
         self._crear_interfaz_normal()
         self.contenedor.show_all()
         self.set_canvas(self.contenedor)
