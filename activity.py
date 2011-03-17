@@ -5,6 +5,7 @@ import logging
 from gettext import gettext as _
 from os.path import exists
 from datetime import datetime
+import os
 import pickle
 import utils
 import pango
@@ -17,6 +18,7 @@ class Sindiente(activity.Activity):
         super(Sindiente, self).__init__(handle)
         #ventana
         self.set_title(_('Sin Dientes'))
+        self.sugar_data = self.get_activity_root() + '/data/'
         self.connect('key-press-event', self._key_press_cb)
 
         #Barra de herramientas sugar
@@ -27,6 +29,7 @@ class Sindiente(activity.Activity):
         #general
         self.comprobar_interfaz = False
         self.modificar_text = pango.FontDescription("Bold 10")
+        self._archivo_sugar()
 
         #contenedores
         self.contenedor = gtk.VBox()
@@ -230,6 +233,23 @@ class Sindiente(activity.Activity):
          
         self.show()
 
+    def _archivo_sugar(self):
+        ruta = self.sugar_data + 'nivel1.palabra'
+        if not os.path.exists(ruta): #ningun archivo copiado aún
+            for i in range(1,8):
+                ruta = self.sugar_data + 'nivel%s.palabra' %i
+                _logger.debug(ruta)
+                ruta_origen = 'resources/nivel%s.palabra' %i
+                _logger.debug(ruta_origen)
+                origen = open(ruta_origen, 'r')
+                contenido = origen.read()
+                destino = open(ruta, 'w')
+                destino.write(contenido)
+                destino.close()
+                origen.close()
+        else:
+            pass
+
     def _crear_interfaz_normal(self):
         '''crea la interfaz de juego'''
         self.ok_btn.set_sensitive(False)
@@ -257,7 +277,7 @@ class Sindiente(activity.Activity):
                 self.palabra = self.nueva_palabra.get_text()
                 self.significado = self.nuevo_significado.get_text()
             else:
-                self.palabra, self.significado = utils.palabra_aleatoria(self.nivel)
+                self.palabra, self.significado = utils.palabra_aleatoria(self.sugar_data, self.nivel)
             self.l_aciertos = []
             self.l_errores= []
             self.errores = 0
@@ -343,7 +363,7 @@ class Sindiente(activity.Activity):
         self.nivel = self.combo.get_active()
         self.uri = self.archivo.get_uri()
         self.uri = self.uri[7:]
-        utils.importar_lista_p(self.uri, self.nivel)
+        utils.importar_lista_p(self.sugar_data, self.uri, self.nivel)
 
     def _nuevapalabra_cb(self, widget, data=None):
         '''callback del menu'''
