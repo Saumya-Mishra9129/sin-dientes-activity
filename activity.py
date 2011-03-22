@@ -17,7 +17,7 @@ class Sindiente(activity.Activity):
     def __init__(self, handle):
         super(Sindiente, self).__init__(handle)
         #ventana
-        self.nivel = 1
+        self.nivel = None
         self.set_title(_('Sin Dientes'))
         self.sugar_data = self.get_activity_root() + '/data/'
         self.connect('key-press-event', self._key_press_cb)
@@ -278,7 +278,11 @@ class Sindiente(activity.Activity):
                 self.palabra = self.nueva_palabra.get_text()
                 self.significado = self.nuevo_significado.get_text()
             else:
-                self.palabra, self.significado = utils.palabra_aleatoria(self.sugar_data, self.nivel)
+                contenido = utils.palabra_aleatoria(self.sugar_data, self.nivel)
+                _logger.debug(contenido)
+                self.palabra = contenido[0]
+                self.significado = contenido[1]
+
             self.l_aciertos = []
             self.l_errores= []
             self.errores = 0
@@ -430,7 +434,8 @@ class Sindiente(activity.Activity):
             if (self.aciertos == len(self.palabra)): 
                 self.instrucciones_label.set_text(_('Acertastes la palabra secreta, \nFELICIDADES!'))
                 self.palabra_entry.set_sensitive(False)
-                self.ok_btn.set_sensitive(False) 
+                self.ok_btn.set_sensitive(False)
+                self.aciertos = 0
                 #self.nuevojuego_btn.show() # muestra el boton para comenzar el juego
 
         #Evalua si letra es repetida y esta dentro de palabra
