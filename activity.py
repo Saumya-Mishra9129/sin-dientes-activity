@@ -17,6 +17,7 @@ class Sindiente(activity.Activity):
     def __init__(self, handle):
         super(Sindiente, self).__init__(handle)
         #ventana
+        self.nivel = 1
         self.set_title(_('Sin Dientes'))
         self.sugar_data = self.get_activity_root() + '/data/'
         self.connect('key-press-event', self._key_press_cb)
