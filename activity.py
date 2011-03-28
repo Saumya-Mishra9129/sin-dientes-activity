@@ -107,6 +107,9 @@ class Sindiente(activity.Activity):
         self.errores_label_2 = gtk.Label()
         self.errores_label_2.modify_font(self.modificar_text)
         self.palabra_label = gtk.Label()
+        self.definicion_label = gtk.Label()
+        self.definicion_label.modify_font(self.modificar_text)
+        self.definicion = gtk.Label()
         self.pista_label = gtk.Label()
         self.pista_label.modify_font(self.modificar_text)
         self.pista = gtk.Label()
@@ -130,6 +133,8 @@ class Sindiente(activity.Activity):
         self.contenedor_superior.pack_start(self.marco)
      
         self.subcontenedor.pack_start(self.instrucciones_label)
+        self.subcontenedor.pack_start(self.definicion_label, False, padding = 5)
+        self.subcontenedor.pack_start(self.definicion, False, padding = 5)
         self.subcontenedor.pack_start(self.pista_label, False, padding = 5)
         self.subcontenedor.pack_start(self.pista, False, padding = 5)
         #self.subcontenedor.pack_start(self.aciertos_label)
@@ -188,9 +193,11 @@ class Sindiente(activity.Activity):
         self.nueva_palabra_label = gtk.Label(_('Ingresa una palabra para jugar'))
         self.nueva_palabra_label.modify_font(self.modificar_text)
         self.n_palabra_label = gtk.Label(_('Palabra'))
-        self.nuevo_significado_label = gtk.Label(_('Pista'))
+        self.nuevo_significado_label = gtk.Label(_('Significado'))
+        self.nueva_pista_label = gtk.Label(_('Pista'))
         self.nueva_palabra = gtk.Entry()
         self.nuevo_significado = gtk.Entry()
+        self.nueva_pista = gtk.Entry()
         self.boton_np = gtk.Button(_('Ingresar palabra'))
         self.boton_np.connect('clicked', self._nueva_p_cb)
         self.atras_imp = gtk.Button(_('Atrás'))
@@ -199,9 +206,11 @@ class Sindiente(activity.Activity):
         #agregando elementos de nueva palabra
         self.contenedor_np_v.pack_start(self.nueva_palabra_label, False, padding=80)
         self.contenedor_np_v.pack_start(self.n_palabra_label, False)
-        self.contenedor_np_v.pack_start(self.nueva_palabra, False, padding=25)
+        self.contenedor_np_v.pack_start(self.nueva_palabra, False, padding=15)
+        self.contenedor_np_v.pack_start(self.nueva_pista_label, False)
+        self.contenedor_np_v.pack_start(self.nueva_pista, False, padding=15)
         self.contenedor_np_v.pack_start(self.nuevo_significado_label, False)
-        self.contenedor_np_v.pack_start(self.nuevo_significado, False, padding=25)
+        self.contenedor_np_v.pack_start(self.nuevo_significado, False, padding=15)
         self.contenedor_np_v.pack_start(self.contenedor_np_1, False, False, 100)
         self.contenedor_np_1.pack_start(self.atras_imp, True, False)
         self.contenedor_np_1.pack_start(self.boton_np, True, False)
@@ -276,12 +285,14 @@ class Sindiente(activity.Activity):
         if nuevo:
             if custom:
                 self.palabra = self.nueva_palabra.get_text()
+                self.texto_pista = self.nueva_pista.get_text()
                 self.significado = self.nuevo_significado.get_text()
             else:
                 contenido = utils.palabra_aleatoria(self.sugar_data, self.nivel)
                 _logger.debug(contenido)
                 self.palabra = contenido[0]
-                self.significado = contenido[1]
+                self.texto_pista = contenido[1]
+                self.significado = contenido[2]
 
             self.l_aciertos = []
             self.l_errores= []
@@ -299,6 +310,8 @@ class Sindiente(activity.Activity):
         self.ok_btn.set_sensitive(False) 
         self.pista_label.set_text('')
         self.pista.set_text('')
+        self.definicion_label.set_text('')
+        self.definicion.set_text('')
         self.instrucciones_label.set_text('')
         self.palabra_label.set_text('')
         self.errores_label.set_text('')
@@ -386,6 +399,7 @@ class Sindiente(activity.Activity):
         self.nuevojuego_btn.set_sensitive(True)
         self.nueva_palabra.set_text('')
         self.nuevo_significado.set_text('')
+        self.nueva_pista.set_text('')
     
     def _nuevo_juegoimp_cb(self, widget, data=None):
         '''nuevo juego en la interfaz de juego personalizado'''
@@ -432,7 +446,9 @@ class Sindiente(activity.Activity):
             
             #Evalua si se acerto la palabra y temina el juego
             if (self.aciertos == len(self.palabra)): 
-                self.instrucciones_label.set_text(_('Acertastes la palabra secreta, \nFELICIDADES!'))
+                self.instrucciones_label.set_text(_('FELICIDADES!\nAcertastes la palabra secreta'))
+                self.definicion_label.set_text(_('Significado:'))
+                self.definicion.set_text(_(self.significado))
                 self.palabra_entry.set_sensitive(False)
                 self.ok_btn.set_sensitive(False)
                 self.aciertos = 0
@@ -451,8 +467,9 @@ class Sindiente(activity.Activity):
             
             #Evalua si se completo el ahorcado y temina el juego            
             if (self.errores >= 8):
-                self.instrucciones_label.set_text(_('La palabra secreta era %s,\n' \
-                                                    'Fin del juego!' % self.palabra))
+                self.instrucciones_label.set_text(_('Fin de Juego\nLa palabra secreta era %s' % self.palabra))
+                self.definicion_label.set_text(_('Significado:'))
+                self.definicion.set_text(_(self.significado))
                 self.aciertos = 0
                 self.palabra_entry.set_sensitive(False) #Activa la caja de texto
                 self.ok_btn.set_sensitive(False) #Inactiva el botón ok una vez que pierde
@@ -468,7 +485,9 @@ class Sindiente(activity.Activity):
         '''Actualiza labels segun instrucciones'''
         self.palabra_entry.set_text('')
         self.pista_label.set_text(_('Pista:'))
-        self.pista.set_text(self.significado)
+        self.pista.set_text(self.texto_pista)
+        self.definicion_label.set_text('')
+        self.definicion.set_text('')
         self.instrucciones_label.set_text(_(instrucciones))
         #self.aciertos_label.set_text(_('Puntaje: %s' % self.aciertos))
         letras = ', '.join(letra for letra in self.l_aciertos)
