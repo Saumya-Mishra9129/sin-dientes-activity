@@ -51,6 +51,60 @@ class Sindiente(activity.Activity):
         self.contenedor_np_1 = gtk.HBox()
         self.contenedor_np_2 = gtk.HBox()
 
+        #Elegir personaje
+        self.elegir_personaje_v = gtk.VBox()
+        self.elegir_personaje_1 = gtk.HBox()
+        self.elegir_personaje_2 = gtk.HBox()
+        self.boton_personaje_1 = gtk.HBox()
+        self.boton_personaje_2 = gtk.HBox()
+
+        self.text_boton_nino = _('Elegir')
+        self.btn_nino_1 = gtk.Button(self.text_boton_nino)
+        self.btn_nino_2 = gtk.Button(self.text_boton_nino)
+        self.btn_nino_3 = gtk.Button(self.text_boton_nino)
+        self.btn_nina_1 = gtk.Button(self.text_boton_nino)
+        self.btn_nina_2 = gtk.Button(self.text_boton_nino)
+        self.btn_nina_3 = gtk.Button(self.text_boton_nino)
+
+        #niños
+        self.personaje_label = gtk.Label(_("Elige un personaje"))
+        self.personaje_label.modify_font(self.modificar_text)
+        self.nino_1 = gtk.Image()
+        self.nino_1.set_from_file('resources/personaje_1/00.png')
+        self.nino_2 = gtk.Image()
+        self.nino_2.set_from_file('resources/personaje_2/00.png')
+        self.nino_3 = gtk.Image()
+        self.nino_3.set_from_file('resources/personaje_3/00.png')
+
+        self.nina_1 = gtk.Image()
+        self.nina_1.set_from_file('resources/personaje_4/00.png')
+        self.nina_2 = gtk.Image()
+        self.nina_2.set_from_file('resources/personaje_5/00.png')
+        self.nina_3 = gtk.Image()
+        self.nina_3.set_from_file('resources/personaje_6/00.png')
+
+        self.boton_personaje_1.pack_start(self.btn_nino_1, True, False)
+        self.boton_personaje_1.pack_start(self.btn_nino_2, True, False)
+        self.boton_personaje_1.pack_start(self.btn_nino_3, True, False)
+        self.boton_personaje_2.pack_start(self.btn_nina_1, True, False)
+        self.boton_personaje_2.pack_start(self.btn_nina_2, True, False)
+        self.boton_personaje_2.pack_start(self.btn_nina_3, True, False)
+
+        self.elegir_personaje_1.pack_start(self.nino_1)
+        self.elegir_personaje_1.pack_start(self.nino_2)
+        self.elegir_personaje_1.pack_start(self.nino_3)
+        self.elegir_personaje_2.pack_start(self.nina_1)
+        self.elegir_personaje_2.pack_start(self.nina_2)
+        self.elegir_personaje_2.pack_start(self.nina_3)
+
+        self.elegir_personaje_v.pack_start(self.personaje_label)
+        self.elegir_personaje_v.pack_start(self.elegir_personaje_1)
+        self.elegir_personaje_v.pack_start(self.boton_personaje_1, False)
+        self.elegir_personaje_v.pack_start(self.elegir_personaje_2)
+        self.elegir_personaje_v.pack_start(self.boton_personaje_2, False)
+        self.elegir_personaje_v.show_all()
+        self.set_canvas(self.elegir_personaje_v)
+
         #interface menu 
         self.imagen_menu = gtk.Image()
         self.imagen_menu.set_from_file('resources/menu.png')
@@ -99,7 +153,7 @@ class Sindiente(activity.Activity):
         self.contenedor_nivel_2.pack_start(self.importar_btn, False, padding = 10)
         self.contenedor_nivel_2.pack_start(self.categoria_libre, False, padding = 10)
         self.contenedor_nivel.show_all()
-        self.set_canvas(self.contenedor_nivel)
+        #self.set_canvas(self.contenedor_nivel)
 
         #interface juego
         self.imagen = gtk.Image()
