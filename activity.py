@@ -230,6 +230,7 @@ class Sindiente(activity.Activity):
         self.combo.append_text(_('Verbos'))
         self.combo.append_text(_('Cosas'))
         self.combo.append_text(_('Valores morales'))
+        self.combo.append_text(_('Nueva categoría'))
         self.combo.set_active(0)
         self.atras_btn_imp = gtk.Button(_('Atrás'))
         self.atras_btn_imp.connect('clicked', self._atras_cb)
