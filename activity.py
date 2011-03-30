@@ -19,6 +19,7 @@ class Sindiente(activity.Activity):
         #ventana
         self.nivel = None
         self.set_title(_('Sin Dientes'))
+        self.ruta_imagen = 'resources/personaje_'
         self.sugar_data = self.get_activity_root() + '/data/'
         self.connect('key-press-event', self._key_press_cb)
 
@@ -65,6 +66,12 @@ class Sindiente(activity.Activity):
         self.btn_nina_1 = gtk.Button(self.text_boton_nino)
         self.btn_nina_2 = gtk.Button(self.text_boton_nino)
         self.btn_nina_3 = gtk.Button(self.text_boton_nino)
+        self.btn_nino_1.connect('clicked', self._btn_nino_1_cb)   
+        self.btn_nino_2.connect('clicked', self._btn_nino_2_cb)
+        self.btn_nino_3.connect('clicked', self._btn_nino_3_cb)
+        self.btn_nina_1.connect('clicked', self._btn_nina_1_cb) 
+        self.btn_nina_2.connect('clicked', self._btn_nina_2_cb)
+        self.btn_nina_3.connect('clicked', self._btn_nina_3_cb)
 
         #niños
         self.personaje_label = gtk.Label(_("Elige un personaje"))
@@ -107,7 +114,6 @@ class Sindiente(activity.Activity):
 
         #interface menu 
         self.imagen_menu = gtk.Image()
-        self.imagen_menu.set_from_file('resources/menu.png')
         self.nivel_1 = gtk.Button(_('Animales'))
         self.nivel_1.connect('clicked', self._nivel_uno_cb, None)
         self.nivel_2 = gtk.Button(_('Plantas'))
@@ -153,8 +159,7 @@ class Sindiente(activity.Activity):
         self.contenedor_nivel_2.pack_start(self.importar_btn, False, padding = 10)
         self.contenedor_nivel_2.pack_start(self.categoria_libre, False, padding = 10)
         self.contenedor_nivel.show_all()
-        #self.set_canvas(self.contenedor_nivel)
-
+        
         #interface juego
         self.imagen = gtk.Image()
         self.instrucciones_label = gtk.Label()
@@ -323,7 +328,7 @@ class Sindiente(activity.Activity):
         '''crea la interfaz de juego'''
         self.ok_btn.set_sensitive(False)
         self.palabra_entry.set_sensitive(False)
-
+        self._cambiar_imagen(0)
         if self.comprobar_interfaz:
             self.contenedor_inferior.remove(self.nuevojuego_imp)
             self.contenedor_inferior.pack_start(self.nuevojuego_btn, False, padding = 1)
@@ -332,6 +337,7 @@ class Sindiente(activity.Activity):
     def _crear_interfaz_personalidad(self):
         '''crea la interfaz cuando se quire ingresar una palabra personalizada'''
         if self.comprobar_interfaz is not True:
+            self._cambiar_imagen(0)
             self.nuevojuego_imp = gtk.Button(_('Nuevo juego'))
             self.nuevojuego_imp.connect('clicked', self._nuevo_juegoimp_cb)
             self.contenedor_inferior.remove(self.nuevojuego_btn)
@@ -378,6 +384,37 @@ class Sindiente(activity.Activity):
         self.letrasusadas_label.set_text('')
         self.letrasusadas_label_2.set_text('')
         self._cambiar_imagen(0)
+
+    #callbacks
+
+    def _btn_nino_1_cb(self, widget, data=None):
+        self.ruta_imagen = self.ruta_imagen + '1/'
+        self.set_canvas(self.contenedor_nivel)
+        self.imagen_menu.set_from_file(self.ruta_imagen + '00.png')
+
+    def _btn_nino_2_cb(self, widget, data=None):
+        self.ruta_imagen = self.ruta_imagen + '2/'
+        self.set_canvas(self.contenedor_nivel)
+        self.imagen_menu.set_from_file(self.ruta_imagen + '00.png')
+    def _btn_nino_3_cb(self, widget, data=None):
+        self.ruta_imagen = self.ruta_imagen + '3/'
+        self.set_canvas(self.contenedor_nivel)
+        self.imagen_menu.set_from_file(self.ruta_imagen + '00.png')
+    
+    def _btn_nina_1_cb(self, widget, data=None):
+        self.ruta_imagen = self.ruta_imagen + '4/'
+        self.set_canvas(self.contenedor_nivel)
+        self.imagen_menu.set_from_file(self.ruta_imagen + '00.png') 
+    
+    def _btn_nina_2_cb(self, widget, data=None):
+        self.ruta_imagen = self.ruta_imagen + '5/'
+        self.set_canvas(self.contenedor_nivel)
+        self.imagen_menu.set_from_file(self.ruta_imagen + '00.png')
+
+    def _btn_nina_3_cb(self, widget, data=None):
+        self.ruta_imagen = self.ruta_imagen + '6/'
+        self.set_canvas(self.contenedor_nivel)
+        self.imagen_menu.set_from_file(self.ruta_imagen + '00.png')
 
     def _atras_cb(self, widget, data=None):
         self.set_canvas(self.contenedor_nivel)
@@ -474,7 +511,7 @@ class Sindiente(activity.Activity):
         self._creacion()
         
     def _cambiar_imagen(self, level):
-        ruta = 'resources/%s.png' % level
+        ruta =  self.ruta_imagen + '%s.png' % level
         self.imagen.set_from_file(ruta)
 
     def _key_press_cb(self, widget, event):
