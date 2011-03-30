@@ -19,7 +19,7 @@ class Sindiente(activity.Activity):
         #ventana
         self.nivel = None
         self.set_title(_('Sin Dientes'))
-        self.ruta_imagen = 'resources/personaje_'
+        self.carpeta_imagen = 'resources/personaje_'
         self.sugar_data = self.get_activity_root() + '/data/'
         self.connect('key-press-event', self._key_press_cb)
 
@@ -135,6 +135,7 @@ class Sindiente(activity.Activity):
         self.nuevapalabra_btn = gtk.Button(_('Modo Versus'))
         self.nuevapalabra_btn.connect('clicked', self._nuevapalabra_cb, None)
         self.cambiar_personaje_btn = gtk.Button(_('Cambiar personaje'))
+        self.cambiar_personaje_btn.connect('clicked', self._cambiar_personaje_cb)
         self.categoria_libre = gtk.Button(_('Categoría Personalizada'))
         self.bienvenida = gtk.Label(_('Bienvenido a \"Sin Diente\"'))
         self.bienvenida.modify_font(self.modificar_text)
@@ -186,7 +187,6 @@ class Sindiente(activity.Activity):
         self.nuevojuego_btn.connect('clicked', self._nuevojuego_btn_clicked_cb, None)
         self.atras_btn = gtk.Button(_('Atrás'))
         self.atras_btn.connect('clicked', self._atras_cb)
-        self._cambiar_imagen(0)
         self.aciertos = 0 #Cuenta los aciertos de letras en la palabra secreta
 
         #agregando elementos juego
@@ -388,33 +388,34 @@ class Sindiente(activity.Activity):
     #callbacks
 
     def _btn_nino_1_cb(self, widget, data=None):
-        self.ruta_imagen = self.ruta_imagen + '1/'
-        self.set_canvas(self.contenedor_nivel)
+        self.ruta_imagen = self.carpeta_imagen + '1/'
         self.imagen_menu.set_from_file(self.ruta_imagen + '00.png')
+        self.set_canvas(self.contenedor_nivel)
 
     def _btn_nino_2_cb(self, widget, data=None):
-        self.ruta_imagen = self.ruta_imagen + '2/'
-        self.set_canvas(self.contenedor_nivel)
+        self.ruta_imagen = self.carpeta_imagen + '2/'
         self.imagen_menu.set_from_file(self.ruta_imagen + '00.png')
+        self.set_canvas(self.contenedor_nivel)
+
     def _btn_nino_3_cb(self, widget, data=None):
-        self.ruta_imagen = self.ruta_imagen + '3/'
-        self.set_canvas(self.contenedor_nivel)
+        self.ruta_imagen = self.carpeta_imagen + '3/'
         self.imagen_menu.set_from_file(self.ruta_imagen + '00.png')
+        self.set_canvas(self.contenedor_nivel)
     
     def _btn_nina_1_cb(self, widget, data=None):
-        self.ruta_imagen = self.ruta_imagen + '4/'
+        self.ruta_imagen = self.carpeta_imagen + '4/'
+        self.imagen_menu.set_from_file(self.ruta_imagen + '00.png')
         self.set_canvas(self.contenedor_nivel)
-        self.imagen_menu.set_from_file(self.ruta_imagen + '00.png') 
     
     def _btn_nina_2_cb(self, widget, data=None):
-        self.ruta_imagen = self.ruta_imagen + '5/'
-        self.set_canvas(self.contenedor_nivel)
+        self.ruta_imagen = self.carpeta_imagen + '5/'
         self.imagen_menu.set_from_file(self.ruta_imagen + '00.png')
-
+        self.set_canvas(self.contenedor_nivel)
+        
     def _btn_nina_3_cb(self, widget, data=None):
-        self.ruta_imagen = self.ruta_imagen + '6/'
-        self.set_canvas(self.contenedor_nivel)
+        self.ruta_imagen = self.carpeta_imagen + '6/'
         self.imagen_menu.set_from_file(self.ruta_imagen + '00.png')
+        self.set_canvas(self.contenedor_nivel)
 
     def _atras_cb(self, widget, data=None):
         self.set_canvas(self.contenedor_nivel)
@@ -461,6 +462,9 @@ class Sindiente(activity.Activity):
         self._crear_interfaz_normal()
         self.contenedor.show_all()
         self.set_canvas(self.contenedor)
+
+    def _cambiar_personaje_cb(self, widget, data=None):
+        self.set_canvas(self.elegir_personaje_v)
 
     def _instrucciones_cb(self, widget, data=None):
         self.area_instruc.show_all()
