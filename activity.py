@@ -128,7 +128,7 @@ class Sindiente(activity.Activity):
         self.nivel_6.connect('clicked', self._nivel_seis_cb, None)
         self.nivel_7 = gtk.Button(_('Valores Morales'))
         self.nivel_7.connect('clicked', self._nivel_siete_cb, None)
-        self.importar_btn = gtk.Button(_('Agregar nueva lista de palabra'))
+        self.importar_btn = gtk.Button(_('Agregar lista de palabra'))
         self.importar_btn.connect('clicked', self._importar_cb, None)
         self.instrucciones = gtk.Button(_('Instrucciones de juego'))
         self.instrucciones.connect('clicked', self._instrucciones_cb, None)
@@ -137,6 +137,7 @@ class Sindiente(activity.Activity):
         self.cambiar_personaje_btn = gtk.Button(_('Cambiar personaje'))
         self.cambiar_personaje_btn.connect('clicked', self._cambiar_personaje_cb)
         self.categoria_libre = gtk.Button(_('Categoría Personalizada'))
+        self.categoria_libre.connect('clicked', self._categoria_personalizada_cb)
         self.bienvenida = gtk.Label(_('Bienvenido a \"Sin Diente\"'))
         self.bienvenida.modify_font(self.modificar_text)
 
@@ -289,7 +290,7 @@ class Sindiente(activity.Activity):
         self.combo.append_text(_('Verbos'))
         self.combo.append_text(_('Cosas'))
         self.combo.append_text(_('Valores morales'))
-        self.combo.append_text(_('Nueva categoría'))
+        self.combo.append_text(_('Categoría Personalizada'))
         self.combo.set_active(0)
         self.atras_btn_imp = gtk.Button(_('Atrás'))
         self.atras_btn_imp.connect('clicked', self._atras_cb)
@@ -304,10 +305,14 @@ class Sindiente(activity.Activity):
         self.importar.pack_start(self.combo, False)
         self.importar.pack_start(self.boton_importar)
         self.archivo.set_extra_widget(self.importar)
+
+        #interface categoria personalizada NONE
+        self.sin_importar = gtk.Label(_('No se ha importado ninguna lista de palabras para crear una categoría personalizada'))
          
         self.show()
 
     def _archivo_sugar(self):
+        '''copia los archivos'''
         ruta = self.sugar_data + 'nivel1.palabra'
         if not os.path.exists(ruta): #ningun archivo copiado aún
             for i in range(1,8):
@@ -343,7 +348,6 @@ class Sindiente(activity.Activity):
             self.contenedor_inferior.remove(self.nuevojuego_btn)
             self.contenedor_inferior.pack_start(self.nuevojuego_imp, False, padding = 1)
         self.comprobar_interfaz = True
-
 
     def _creacion(self, nuevo=True, custom=False):
         '''Crea las variables necesarias para el comienzo del juego'''
@@ -462,6 +466,17 @@ class Sindiente(activity.Activity):
         self._crear_interfaz_normal()
         self.contenedor.show_all()
         self.set_canvas(self.contenedor)
+    
+    def _categoria_personalizada_cb(self, widget, data=None):
+        self.nivel = utils.categoria_personalizada(self.sugar_data)
+        if self.nivel:
+            self._crear_interfaz_normal()
+            self.contenedor.show_all()
+            self.set_canvas(self.contenedor)
+        else:
+            self.sin_importar.show_all()
+            self.set_canvas(self.sin_importar)
+            #pass #mostrar mensaje
 
     def _cambiar_personaje_cb(self, widget, data=None):
         self.set_canvas(self.elegir_personaje_v)

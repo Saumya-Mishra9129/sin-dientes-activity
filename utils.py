@@ -21,13 +21,22 @@ def validar_uri(uri):
     else:
         return 0
 
+def categoria_personalizada(path):
+    if os.path.exists(path + 'nivel8.palabra'):
+        return 8
+    else:
+        return 0
+
 def importar_lista_p(path ,uri, nivel):
     '''importa una nueva lista de palabras'''
     if validar_uri(uri):
         log.debug('palabra importada')
         path = path + 'nivel%s.palabra' %(nivel + 1)
         archivo = open(uri, 'r') #lee el archivo a exportar
-        archivo_viejo = open(path, 'r+w')
+        if (nivel + 1) is 8:
+            archivo_viejo = open(path, 'w')
+        else:
+            archivo_viejo = open(path, 'r+w')
         archivo_viejo.seek(0, os.SEEK_END)
         texto = archivo.read()
         archivo_viejo.write(texto)
