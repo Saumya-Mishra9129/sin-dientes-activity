@@ -353,15 +353,15 @@ class Sindiente(activity.Activity):
         '''Crea las variables necesarias para el comienzo del juego'''
         if nuevo:
             if custom:
-                self.palabra = self.nueva_palabra.get_text()
-                self.texto_pista = self.nueva_pista.get_text()
-                self.significado = self.nuevo_significado.get_text()
+                self.palabra = utils.cambiar_longitud(self.nueva_palabra.get_text())
+                self.texto_pista = utils.cambiar_longitud(self.nueva_pista.get_text())
+                self.significado = utils.cambiar_longitud(self.nuevo_significado.get_text())
             else:
                 contenido = utils.palabra_aleatoria(self.sugar_data, self.nivel)
                 _logger.debug(contenido)
-                self.palabra = contenido[0]
-                self.texto_pista = contenido[1]
-                self.significado = contenido[2]
+                self.palabra = utils.cambiar_longitud(contenido[0])
+                self.texto_pista = utils.cambiar_longitud(contenido[1])
+                self.significado = utils.cambiar_longitud(contenido[2])
 
             self.l_aciertos = []
             self.l_errores= []

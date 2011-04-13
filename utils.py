@@ -4,14 +4,25 @@ import os
 from gettext import gettext as _
 log = logging.getLogger('utils')
 
+def cambiar_longitud(entrada):
+    longitud = len(entrada)
+    cadena = ""
+    if len(entrada) > 50:
+        for i in range(0, longitud, 50):
+            cadena += (entrada[i:i+50] + '-\n')
+        return cadena
+    else:
+        return entrada
+
 def palabra_aleatoria(path, nivel):
     """retorna una palabra obtenida del archivo lista_palabras.txt"""
     path = path + 'nivel%s.palabra' %(nivel)
     archivo = open(path,'r')
     palabras = [palabra.lower() for palabra in archivo.readlines()]
-    archivo.close()
-              
-    return palabras[random.randint(0, len(palabras)-1)].split(',')
+    archivo.close()        
+    palabra_random = palabras[random.randint(0, len(palabras)-1)]    
+    palabra_random = palabra_random.replace('"','')
+    return palabra_random.split(':')
 
 def validar_uri(uri):
     log.debug('validar uri')
