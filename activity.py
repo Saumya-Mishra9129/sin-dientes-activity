@@ -362,7 +362,7 @@ class Sindiente(activity.Activity):
             else:
                 contenido = utils.palabra_aleatoria(self.sugar_data, self.nivel)
                 _logger.warning(contenido)
-                self.palabra = contenido[0]
+                self.palabra = unicode(contenido[0], "utf-8")
                 self.texto_pista = contenido[1]
                 self.significado = contenido[2]
 
@@ -548,12 +548,14 @@ class Sindiente(activity.Activity):
 
         #Convierte la letra a minuscula
         letra_actual = self.palabra_entry.get_text().lower()
-
+        letra_actual = unicode(letra_actual, "utf-8")
         #Divive en dos palabras
         if ' ' in self.palabra:
             longitud_palabra = len(self.palabra) - 1
         else:
             longitud_palabra = len(self.palabra)
+
+        _logger.debug(letra_actual)
         #Evalua si se escribio mas de 1 letra o esta vacio
         if (len(letra_actual) is not 1 or letra_actual == " "): 
             self.palabra_entry.set_text('')
@@ -628,7 +630,7 @@ class Sindiente(activity.Activity):
         for letra in self.palabra:
             if letra in self.l_aciertos:
                 pista += '%s ' % letra
-            elif letra is not ' ': #no pintar espacios
+            elif letra != ' ': #no pintar espacios
                 pista += '_ '
             else:
                 pista += ' '
