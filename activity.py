@@ -175,9 +175,12 @@ class Sindiente(activity.Activity):
         self.definicion_label = gtk.Label()
         self.definicion_label.modify_font(self.modificar_text)
         self.definicion = gtk.Label()
+        self.definicion.set_line_wrap(True)
         self.pista_label = gtk.Label()
         self.pista_label.modify_font(self.modificar_text)
         self.pista = gtk.Label()
+        self.pista.set_line_wrap(True)
+        #self.pista.set_max_width_chars(0)
         self.letrasusadas_label = gtk.Label()
         self.letrasusadas_label_2 = gtk.Label()
         self.letrasusadas_label_2.modify_font(self.modificar_text)
@@ -353,15 +356,15 @@ class Sindiente(activity.Activity):
         '''Crea las variables necesarias para el comienzo del juego'''
         if nuevo:
             if custom:
-                self.palabra = utils.cambiar_longitud(self.nueva_palabra.get_text())
-                self.texto_pista = utils.cambiar_longitud(self.nueva_pista.get_text())
-                self.significado = utils.cambiar_longitud(self.nuevo_significado.get_text())
+                self.palabra = self.nueva_palabra.get_text()
+                self.texto_pista = self.nueva_pista.get_text()
+                self.significado = self.nuevo_significado.get_text()
             else:
                 contenido = utils.palabra_aleatoria(self.sugar_data, self.nivel)
-                _logger.debug(contenido)
-                self.palabra = utils.cambiar_longitud(contenido[0])
-                self.texto_pista = utils.cambiar_longitud(contenido[1])
-                self.significado = utils.cambiar_longitud(contenido[2])
+                _logger.warning(contenido)
+                self.palabra = contenido[0]
+                self.texto_pista = contenido[1]
+                self.significado = contenido[2]
 
             self.l_aciertos = []
             self.l_errores= []
@@ -527,6 +530,7 @@ class Sindiente(activity.Activity):
     def _nuevojuego_btn_clicked_cb(self, widget, data=None):
         self.palabra_entry.set_sensitive(True) #Activa la caja de texto
         self.ok_btn.set_sensitive(True) #Activa el botón ok
+        self.aciertos = 0
         self._creacion()
         
     def _cambiar_imagen(self, level):
@@ -545,6 +549,11 @@ class Sindiente(activity.Activity):
         #Convierte la letra a minuscula
         letra_actual = self.palabra_entry.get_text().lower()
 
+        #Divive en dos palabras
+        if ' ' in self.palabra:
+            longitud_palabra = len(self.palabra) - 1
+        else:
+            longitud_palabra = len(self.palabra)
         #Evalua si se escribio mas de 1 letra o esta vacio
         if (len(letra_actual) is not 1 or letra_actual == " "): 
             self.palabra_entry.set_text('')
@@ -554,13 +563,14 @@ class Sindiente(activity.Activity):
         elif (letra_actual in self.palabra and letra_actual not in self.l_aciertos):
             self.l_aciertos.append(letra_actual)
             for i in range(len(self.palabra)):
-                if (letra_actual == self.palabra[i]):
+                if letra_actual == self.palabra[i] and self.palabra[i] != ' ':
                     self.aciertos += 1
+                    _logger.debug(self.aciertos)
             
             self._actualizar_labels("Letra dentro de palabra secreta!")
             
             #Evalua si se acerto la palabra y temina el juego
-            if (self.aciertos == len(self.palabra)): 
+            if self.aciertos == longitud_palabra: 
                 self.instrucciones_label.set_text(_('FELICIDADES!\nAcertastes la palabra secreta'))
                 self.definicion_label.set_text(_('Significado:'))
                 self.definicion.set_text(_(self.significado))
@@ -618,8 +628,10 @@ class Sindiente(activity.Activity):
         for letra in self.palabra:
             if letra in self.l_aciertos:
                 pista += '%s ' % letra
-            else:
+            elif letra is not ' ': #no pintar espacios
                 pista += '_ '
+            else:
+                pista += ' '
         self.palabra_label.set_text(pista)
 
     def read_file(self, filepath):
