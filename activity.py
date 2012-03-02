@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-from sugar.activity import activity
+from sugar.activity import activity, widgets
 import gtk
 import logging
 from gettext import gettext as _
@@ -24,9 +24,10 @@ class Sindiente(activity.Activity):
         self.connect('key-press-event', self._key_press_cb)
 
         #Barra de herramientas sugar
-        barra_herramientas = activity.ActivityToolbox(self)
-        self.set_toolbox(barra_herramientas)
-        barra_herramientas.show()
+
+        toolbox = widgets.ActivityToolbox(self)
+        self.set_toolbar_box(toolbox)
+        toolbox.show()
         
         #general
         self.comprobar_interfaz = False
